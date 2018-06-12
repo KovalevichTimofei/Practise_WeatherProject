@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="styles.css" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <h1>Погода и прогноз</h1>
+        </header>
+
+        <article class="row">
+
+            <div class="col-xs-3">
+
+                <div>
+
+                    <strong class="cur-weather-text"> Погода в Бресте </strong> </br>
+
+                    <img src="http://openweathermap.org/img/w/03d.png" >
+
+                    <strong class="cur-weather-text"> 25°C </strong> </br>
+
+                    12 июня, 2018
+
+                    <table class="table">
+                        <tbody>
+                        <tr>
+                            <td>
+                                Ветер
+                            </td>
+                            <td>
+                                Скорость - 6 m/s, порывы - 9 m/s, направление - Зюйд
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Облачность
+                            </td>
+                            <td>
+                                Переменная
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Давление
+                            </td>
+                            <td>
+                                1024 гПа
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Влажность
+                            </td>
+                            <td>
+                                80%
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Восход Солнца
+                            </td>
+                            <td>
+                                9:16
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Закат Солнца
+                            </td>
+                            <td>
+                                17:58
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+
+                </div>
+            </div>
+
+            <div class="col-xs-6">
+
+                <img src="http://www.pogodaiklimat.ru/graf/rus/2018/33008_201806.gif" class="graph">
+
+                </br>
+                </br>
+
+                <div id="brest">
+                    <strong> Прогноз погоды, г. Брест </strong>
+
+                    </br>
+
+                    <table class="table">
+                        <tbody>
+                        <tr>
+                            <td>
+                                Среда, 13 июня 2018
+
+                                <img src="http://openweathermap.org/img/w/01d.png">
+
+                                <br>
+
+                                <small>Завтра</small>
+                            </td>
+                            <td>
+                                20°C, <i>Безоблачно</i>
+                                <br>
+                                Ветер: 4,71 м/с
+                                <br>
+                                Давление: 10001 гПа
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Четверг, 14 июня 2018
+
+                                <img src="http://openweathermap.org/img/w/10d.png">
+                            </td>
+                            <td>
+                                23°C, <i>Небольшой дождь</i>
+                                <br>
+                                Ветер: 3,71 м/с
+                                <br>
+                                Давление: 10004 гПа
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Пятница, 15 июня 2018
+
+                                <img src="http://openweathermap.org/img/w/10d.png">
+                            </td>
+                            <td>
+                                17°C, <i>Дождь</i>
+                                <br>
+                                Ветер: 6,82 м/с
+                                <br>
+                                Давление: 10007 гПа
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Суббота, 16 июня 2018
+
+                                <img src="http://openweathermap.org/img/w/10d.png">
+                            </td>
+                            <td>
+                                27°C, <i>Дождь</i>
+                                <br>
+                                Ветер: 7,22 м/с
+                                <br>
+                                Давление: 10009 гПа
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Воскресенье, 17 июня 2018
+
+                                <img src="http://openweathermap.org/img/w/01d.png">
+                            </td>
+                            <td>
+                                30°C, <i>Безоблачно</i>
+                                <br>
+                                Ветер: 5,64 м/с
+                                <br>
+                                Давление: 10009 гПа
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+
+            </div>
+
+            <div class="col-xs-3">
+                <div class="well">
+                    <ul class="nav">
+                        <li class="nav">Города для просмотра</li>
+                        <li class="nav-divider"></li>
+                        <li class="active"><a href="#brest">Брест</a></li>
+                        <li><a href="#vitebsk">Витебск</a></li>
+                        <li><a href="#grodno">Гродно</a></li>
+                        <li><a href="#gomel">Гомель</a></li>
+                        <li><a href="#minsk">Минск</a></li>
+                        <li><a href="#mogiliov">Могилёв</a></li>
+                        <li class="nav-divider"></li>
+                        <li><span class="glyphicon glyphicon-plus"></span></li>
+                    </ul>
+                </div>
+            </div>
+        </article>
+
+    </div>
+
+    <footer>
+        © 2018 TimofeiWeather ® All rights reserved.
+    </footer>
+</body>
+</html>

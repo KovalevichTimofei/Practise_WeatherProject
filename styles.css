@@ -1,0 +1,29 @@
+.graph{
+    background-color: lightblue;
+    height: 150px;
+}
+
+.cur-weather-text{
+    font: 600 20px Oswald,Arial,sans-serif;
+}
+
+.nav .active{
+    background-color: #d5d5d5;
+}
+
+.nav .active a:hover{
+    background-color: #d5d5d5;
+}
+
+footer{
+    width:100%;
+    background-color: #2aabd2;
+    color: white;
+    padding-left: 10px;
+}
+
+.graph{
+    width: 510px;
+    height: 289px;
+
+}
