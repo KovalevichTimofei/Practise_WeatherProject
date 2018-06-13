@@ -38,3 +38,15 @@ footer{
     overflow: hidden;
     background-color: #e5e5e5;
 }
+
+@media (max-width: 991px){
+    .pointer{
+        text-align: left;
+    }
+}
+
+@media (min-width: 992px){
+    .pointer{
+        text-align: right;
+    }
+}
