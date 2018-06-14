@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import './styles.css';
 
 class CurrentWeather extends Component {
     render(){
@@ -17,7 +18,7 @@ class CurrentWeather extends Component {
                     <div className="col-lg-4 col-md-4 col-sm-12">
                     Ветер
                     </div>
-                    <div className="col-lg-8 col-md-8 col-sm-12 pointer">
+                    <div className="col-lg-8 col-md-8 col-sm-12 align-text">
                     Скорость - 6 m/s, порывы - 9 m/s, направление - Зюйд
                     </div>
                 </div>
@@ -30,7 +31,7 @@ class CurrentWeather extends Component {
                     <div className="col-lg-4 col-md-4 col-sm-12">
                     Облачность
                     </div>
-                    <div className="col-lg-8 col-md-8 col-sm-12 pointer">
+                    <div className="col-lg-8 col-md-8 col-sm-12 align-text">
                     Переменная
                     </div>
                 </div>
@@ -43,7 +44,7 @@ class CurrentWeather extends Component {
                     <div className="col-lg-4 col-md-4 col-sm-12">
                     Давление
                     </div>
-                    <div className="col-lg-8 col-md-8 col-sm-12 pointer">
+                    <div className="col-lg-8 col-md-8 col-sm-12 align-text">
                     1024 гПа
                     </div>
                 </div>
@@ -56,7 +57,7 @@ class CurrentWeather extends Component {
                     <div className="col-lg-4 col-md-4 col-sm-12">
                     Влажность
                     </div>
-                    <div className="col-lg-8 col-md-8 col-sm-12 pointer">
+                    <div className="col-lg-8 col-md-8 col-sm-12 align-text">
                     80%
                     </div>
                 </div>
@@ -69,7 +70,7 @@ class CurrentWeather extends Component {
                     <div className="col-lg-4 col-md-4 col-sm-12">
                     Восход Солнца
                     </div>
-                    <div className="col-lg-8 col-md-8 col-sm-12 pointer">
+                    <div className="col-lg-8 col-md-8 col-sm-12 align-text">
                     9:16
                     </div>
                 </div>
@@ -82,7 +83,7 @@ class CurrentWeather extends Component {
                     <div className="col-lg-4 col-md-4 col-sm-12">
                     Закат Солнца
                     </div>
-                    <div className="col-lg-8 col-md-8 col-sm-12 pointer">
+                    <div className="col-lg-8 col-md-8 col-sm-12 align-text">
                     17:58
                     </div>
                 </div>

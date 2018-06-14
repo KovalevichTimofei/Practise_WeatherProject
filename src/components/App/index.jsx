@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-import Header from './Header';
-import CurrentWeather from './CurrentWeather';
-import SpecificCity from './SpecificCity';
-import Cities from './Cities';
-import Footer from './Footer';
+import Header from '../Header';
+import CurrentWeather from '../CurrentWeather';
+import SpecificCity from '../SpecificCity';
+import Cities from '../Cities';
+import Footer from '../Footer';
 
 class App extends Component {
     render() {

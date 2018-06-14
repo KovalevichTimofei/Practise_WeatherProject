@@ -1,0 +1,15 @@
+.cur-weather-text{
+    font: 600 20px Oswald,Arial,sans-serif;
+}
+
+@media (max-width: 991px){
+    .align-text{
+        text-align: left;
+    }
+}
+
+@media (min-width: 992px){
+    .align-text{
+        text-align: right;
+    }
+}

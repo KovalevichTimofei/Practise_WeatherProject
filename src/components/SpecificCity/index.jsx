@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import Graph from './Graph';
-import FiveDaysWeather from './FiveDaysWeather';
+import Graph from '../Graph';
+import FiveDaysWeather from '../FiveDaysWeather';
 
 class SpecificCity extends Component{
     render(){
