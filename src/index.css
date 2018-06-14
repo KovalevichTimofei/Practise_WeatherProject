@@ -1,11 +1,3 @@
-.nav .active{
-    background-color: #d5d5d5;
-}
-
-.nav .active a:hover{
-    background-color: #d5d5d5;
-}
-
 .divider{
     height: 1px;
     margin: 9px 0;
