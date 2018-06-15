@@ -27,22 +27,30 @@ class CurrentWeather extends Component {
         }
     };
 
-    componentWillMount(){
-        let weather = getInformation();
-        weather.then((weather) => {
-            console.log(weather);
+    myStorage = window.localStorage;
 
-            parseInformation(weather, this);
-        });
+    componentWillMount() {
+        let curWeather = JSON.parse(this.myStorage.getItem('currentWeather')),
+            curDate = new Date();
 
+        if (curWeather === null || curWeather.date.year !== curDate.getFullYear() || curWeather.date.monthNumber
+            !== curDate.getMonth() || curWeather.date.day !== curDate.getDate() ) {
+
+            let weather = getInformation();
+            weather.then((weather) => {
+                //console.log(weather);
+                parseInformation(weather, this);
+            });
+        }
+        else {
+            this.setState({curWeather});
+        }
 
         function getInformation() {
             let result;
 
             return fetch('http://api.openweathermap.org/data/2.5/weather?q=Brest,by&type=like&APPID=f40fe3edc5d5eccab2a08d022a005dea&lang=ru')
                 .then(function (response) {
-                    //alert(response.headers.get('Content-Type')); // application/json; charset=utf-8
-                    //alert(response.status); // 200
                     return response.json();
                 })
                 .catch( function(e)
@@ -54,7 +62,7 @@ class CurrentWeather extends Component {
         function parseInformation(weather, self){
             console.log(weather);
             let months = ['января','февраля','марта','апреля','мая','июня',
-                'июля','августа','сентября','октября','ноября','декабря',];
+                'июля','августа','сентября','октября','ноября','декабря'];
 
             let date = new Date(weather.dt*1000),
                 sunrise = new Date (weather.sys.sunrise*1000),
@@ -66,7 +74,8 @@ class CurrentWeather extends Component {
                     date: {
                         year: date.getFullYear(),
                         day: date.getDate(),
-                        month: months[date.getMonth()]
+                        month: months[date.getMonth()],
+                        monthNumber: date.getMonth()
                     },
                     wind: {
                         speed: weather.wind.speed,
@@ -82,6 +91,9 @@ class CurrentWeather extends Component {
                     }
                 }
             });
+
+            self.myStorage.setItem('currentWeather', JSON.stringify(self.state.currentWeather))
+            console.log(self.myStorage);
 
             function addZero(n){
                 return n.toString().length === 1 ? `0${n}` : n;
@@ -111,8 +123,6 @@ class CurrentWeather extends Component {
     }
 
     render(){
-        //console.log('render');
-        //console.log(this.state.currentWeather.wind);
         return <div className="col-lg-3 col-md-3 col-sm-3">
             <strong className="cur-weather-text"> Погода в Бресте </strong>
             <img src="http://openweathermap.org/img/w/03d.png"/>
