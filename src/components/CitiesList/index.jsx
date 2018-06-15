@@ -15,8 +15,6 @@ class CitiesList extends Component{
                 return <li><City isActive='' city={city}/></li>;
         });
 
-        console.log(cities[0]);
-
         return(
             <ul className="nav">
                 <li className="nav">Города для просмотра</li>
