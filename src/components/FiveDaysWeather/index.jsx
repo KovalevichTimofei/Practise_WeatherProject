@@ -3,6 +3,38 @@ import Day from '../Day';
 
 class FiveDaysWeather extends Component{
 
+    state
+
+    componentWillMount() {
+        //let curWeather = JSON.parse(this.myStorage.getItem('currentWeather')),
+            //curDate = new Date();
+
+
+
+            let weather = getInformation();
+            weather.then((weather) => {
+                //console.log(weather);
+                //parseInformation(weather, this);
+            });
+
+        function getInformation() {
+            let result;
+
+            return fetch('http://api.openweathermap.org/data/2.5/forecast?q=Brest,by&type=like&APPID=f40fe3edc5d5eccab2a08d022a005dea&lang=ru')
+                .then(function (response) {
+                    return response.json();
+                })
+                .then(function(res){
+                    console.log(res);
+                    return res;
+                })
+                .catch( function(e)
+                {
+                    alert(e);
+                });
+        }
+    }
+
     daysList = [
         {
             date: {

@@ -23,18 +23,19 @@ class CurrentWeather extends Component {
             sun: {
                 sunrise: ' ',
                 sunset: ' '
-            }
+            },
+            icon: ''
         }
     };
 
     myStorage = window.localStorage;
 
     componentWillMount() {
-        let curWeather = JSON.parse(this.myStorage.getItem('currentWeather')),
+        let currentWeather = JSON.parse(this.myStorage.getItem('currentWeather')),
             curDate = new Date();
 
-        if (curWeather === null || curWeather.date.year !== curDate.getFullYear() || curWeather.date.monthNumber
-            !== curDate.getMonth() || curWeather.date.day !== curDate.getDate() ) {
+        if (currentWeather === null || currentWeather.date.year !== curDate.getFullYear() || currentWeather.date.monthNumber
+            !== curDate.getMonth() || currentWeather.date.day !== curDate.getDate() ) {
 
             let weather = getInformation();
             weather.then((weather) => {
@@ -43,7 +44,7 @@ class CurrentWeather extends Component {
             });
         }
         else {
-            this.setState({curWeather});
+            this.setState({currentWeather});
         }
 
         function getInformation() {
@@ -88,13 +89,12 @@ class CurrentWeather extends Component {
                     sun: {
                         sunrise: `${addZero(sunrise.getHours())}:${addZero(sunrise.getMinutes())}`,
                         sunset: `${addZero(sunset.getHours())}:${addZero(sunset.getMinutes())}`
-                    }
+                    },
+                    icon: weather.weather[0].icon
                 }
             });
 
             self.myStorage.setItem('currentWeather', JSON.stringify(self.state.currentWeather))
-            console.log(self.myStorage);
-
             function addZero(n){
                 return n.toString().length === 1 ? `0${n}` : n;
             }
@@ -123,9 +123,11 @@ class CurrentWeather extends Component {
     }
 
     render(){
+        let imgUrl = `http://openweathermap.org/img/w/${this.state.currentWeather.icon}.png`;
+
         return <div className="col-lg-3 col-md-3 col-sm-3">
             <strong className="cur-weather-text"> Погода в Бресте </strong>
-            <img src="http://openweathermap.org/img/w/03d.png"/>
+            <img src={imgUrl}/>
             <strong className="cur-weather-text"> {this.state.currentWeather.temperature}°C </strong>
             {this.state.currentWeather.date.day} {this.state.currentWeather.date.month}, {this.state.currentWeather.date.year}
             <div className="row">
