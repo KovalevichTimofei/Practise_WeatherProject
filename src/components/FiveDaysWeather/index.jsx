@@ -3,19 +3,43 @@ import Day from '../Day';
 
 class FiveDaysWeather extends Component{
 
-    state
+    constructor()
+    {
+        super();
+        this.state = {weather : []};
+        this.state.weather.fill({
+            date: {
+                dayName: '',
+                dayNumber: '',
+                monthNumber: '',
+                monthName: '',
+                year: '',
+            },
+            temperature: '',
+            windSpeed: '',
+            pressure: '',
+            cloudness: '',
+            icon: 'http://openweathermap.org/img/w/01d.png'
+        },0,5);
+    }
+
+    myStorage = window.localStorage;
 
     componentWillMount() {
-        //let curWeather = JSON.parse(this.myStorage.getItem('currentWeather')),
-            //curDate = new Date();
+        let storWeather = JSON.parse(this.myStorage.getItem('weather')),
+            curDate = new Date();
 
-
-
+        curDate.setDate(curDate.getDate() + 1);
+        if (storWeather === null || storWeather[0].date.year !== curDate.getFullYear() || storWeather[0].date.monthNumber
+            !== curDate.getMonth() || storWeather[0].date.dayNumber !== curDate.getDate() ) {
             let weather = getInformation();
             weather.then((weather) => {
-                //console.log(weather);
-                //parseInformation(weather, this);
+                parseInformation(weather, this);
             });
+        }
+        else {
+            this.setState({storWeather});
+        }
 
         function getInformation() {
             let result;
@@ -24,88 +48,60 @@ class FiveDaysWeather extends Component{
                 .then(function (response) {
                     return response.json();
                 })
-                .then(function(res){
-                    console.log(res);
-                    return res;
-                })
                 .catch( function(e)
                 {
                     alert(e);
                 });
         }
-    }
 
-    daysList = [
-        {
-            date: {
-                dayName: 'Среда',
-                dayNumber: 13,
-                monthName: 'июня',
-                year: 2018
-            },
-            temperature: 20,
-            windSpeed: 4.71,
-            pressure: 10001,
-            cloudness: 'Безоблачно',
-            icon: 'http://openweathermap.org/img/w/01d.png'
-        },
-        {
-            date: {
-                dayName: 'Четверг',
-                dayNumber: 14,
-                monthName: 'июня',
-                year: 2018
-            },
-            temperature: 23,
-            windSpeed: 3.71,
-            pressure: 10004,
-            cloudness: 'Небольшой дождь',
-            icon: 'http://openweathermap.org/img/w/10d.png'
-        },
-        {
-            date: {
-                dayName: 'Пятница',
-                dayNumber: 15,
-                monthName: 'июня',
-                year: 2018
-            },
-            temperature: 17,
-            windSpeed: 6.82,
-            pressure: 10007,
-            cloudness: 'Дождь',
-            icon: 'http://openweathermap.org/img/w/10d.png'
-        },
-        {
-            date: {
-                dayName: 'Суббота',
-                dayNumber: 16,
-                monthName: 'июня',
-                year: 2018
-            },
-            temperature: 27,
-            windSpeed: 7.22,
-            pressure: 10009,
-            cloudness: 'Дождь',
-            icon: 'http://openweathermap.org/img/w/10d.png'
-        },
-        {
-            date: {
-                dayName: 'Воскресенье',
-                dayNumber: 17,
-                monthName: 'июня',
-                year: 2018
-            },
-            temperature: 30,
-            windSpeed: 5.64,
-            pressure: 10009,
-            cloudness: 'Безоблачно',
-            icon: 'http://openweathermap.org/img/w/01d.png'
+        function parseInformation(weather, self){
+            let months = ['января','февраля','марта','апреля','мая','июня',
+                'июля','августа','сентября','октября','ноября','декабря'];
+
+            let weekDay = ['Понедельник','Вторник','Среда','Четверг','Пятница','Суббота','Воскресенье'];
+
+            let usefulInformation = weather.list.filter((item) => {
+                let date = new Date(item.dt*1000), today = new Date();
+                let ifNotToday = date.getDate() !== today.getDate(),
+                    if15Hours = date.getHours() === 15;
+                return ifNotToday && if15Hours;
+            });
+
+            let resultWeather = usefulInformation.map((item) => {
+                let date = new Date(item.dt*1000);
+
+                return {
+                    date: {
+                        dayName: weekDay[date.getDay()],
+                        dayNumber: date.getDate(),
+                        monthNumber: date.getMonth(),
+                        monthName: months[date.getMonth()],
+                        year: date.getFullYear()
+                    },
+                    temperature: Math.round(item.main.temp - 273.15),
+                    windSpeed: item.wind.speed,
+                    pressure: item.main.pressure,
+                    cloudness: makeFirstLetterUpper(item.weather[0].description),
+                    icon: `http://openweathermap.org/img/w/${item.weather[0].icon}.png`
+                };
+            });
+
+            self.setState({
+                weather: resultWeather
+            });
+
+            self.myStorage.setItem('weather', JSON.stringify(self.state.weather));
+
+            function makeFirstLetterUpper(word)
+            {
+                return `${word.charAt(0).toUpperCase()}${word.slice(1)}`;
+            }
         }
-    ];
+    }
 
     render(){
 
-        let days = this.daysList.map((item, i)=>{
+        let days = this.state.weather.map((item, i)=>{
             return <Day weather={item}/>;
         });
 

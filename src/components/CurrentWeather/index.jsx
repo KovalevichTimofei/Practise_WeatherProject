@@ -83,7 +83,7 @@ class CurrentWeather extends Component {
                         gust: weather.wind.gust,
                         direction: getWindDirection(weather.wind.deg)
                     },
-                    cloudness: makeFirstLeteerUpper(weather.weather[0].description),
+                    cloudness: makeFirstLetterUpper(weather.weather[0].description),
                     pressure: weather.main.pressure,
                     humidity: weather.main.humidity,
                     sun: {
@@ -94,7 +94,7 @@ class CurrentWeather extends Component {
                 }
             });
 
-            self.myStorage.setItem('currentWeather', JSON.stringify(self.state.currentWeather))
+            self.myStorage.setItem('currentWeather', JSON.stringify(self.state.currentWeather));
             function addZero(n){
                 return n.toString().length === 1 ? `0${n}` : n;
             }
@@ -111,11 +111,11 @@ class CurrentWeather extends Component {
                 };
 
                 let result = dir.split('').map( (item) => values[item] );
-                result[0] = makeFirstLeteerUpper(result[1]);
+                result[0] = makeFirstLetterUpper(result[1]);
                 return result.join('-');
             }
 
-            function makeFirstLeteerUpper(word)
+            function makeFirstLetterUpper(word)
             {
                 return `${word.charAt(0).toUpperCase()}${word.slice(1)}`;
             }
@@ -129,7 +129,7 @@ class CurrentWeather extends Component {
             <strong className="cur-weather-text"> Погода в Бресте </strong>
             <img src={imgUrl}/>
             <strong className="cur-weather-text"> {this.state.currentWeather.temperature}°C </strong>
-            {this.state.currentWeather.date.day} {this.state.currentWeather.date.month}, {this.state.currentWeather.date.year}
+            {this.state.currentWeather.date.day}  {this.state.currentWeather.date.month}, {this.state.currentWeather.date.year}
             <div className="row">
                 <div className="col-lg-12 col-md-12 col-sm-12">
                     <div className="divider"/>
