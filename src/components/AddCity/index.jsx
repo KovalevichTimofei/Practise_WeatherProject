@@ -4,7 +4,7 @@ import './styles.css'
 class AddCity extends Component{
     render(){
         return(
-            <span className="glyphicon glyphicon-plus add-city"></span>
+            <span onClick={this.props.openModal} className="glyphicon glyphicon-plus add-city"></span>
         );
     }
 }

@@ -38,7 +38,7 @@ class FiveDaysWeather extends Component{
             });
         }
         else {
-            this.setState({storWeather});
+            this.setState({weather: storWeather});
         }
 
         function getInformation() {
@@ -58,7 +58,7 @@ class FiveDaysWeather extends Component{
             let months = ['января','февраля','марта','апреля','мая','июня',
                 'июля','августа','сентября','октября','ноября','декабря'];
 
-            let weekDay = ['Понедельник','Вторник','Среда','Четверг','Пятница','Суббота','Воскресенье'];
+            let weekDay = ['Воскресенье','Понедельник','Вторник','Среда','Четверг','Пятница','Суббота'];
 
             let usefulInformation = weather.list.filter((item) => {
                 let date = new Date(item.dt*1000), today = new Date();
@@ -66,7 +66,7 @@ class FiveDaysWeather extends Component{
                     if15Hours = date.getHours() === 15;
                 return ifNotToday && if15Hours;
             });
-
+            console.log(usefulInformation);
             let resultWeather = usefulInformation.map((item) => {
                 let date = new Date(item.dt*1000);
 
@@ -104,7 +104,6 @@ class FiveDaysWeather extends Component{
         let days = this.state.weather.map((item, i)=>{
             return <Day weather={item}/>;
         });
-
         return(
             <div>
             <strong> Прогноз погоды, г. Брест </strong>
