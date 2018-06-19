@@ -1,37 +1,37 @@
 import React, {Component} from 'react';
 import City from '../City'
 
-class CitiesList extends Component{
+class CitiesList extends Component {
 
     list = [{city : 'Брест', code : 'by', engCity : 'Brest'}];
 
-    componentWillMount(){
-        let newList = this.props.list.filter((item)=>{
-            return this.list.every((val)=>{
+    componentWillMount() {
+        let newList = this.props.list.filter((item) => {
+            return this.list.every((val) => {
                 return !(val.city === item.city && val.code === item.code);
             })
         });
         this.list = this.list.concat(newList);
     }
 
-    changeCity(city){
+    changeCity(city) {
         this.props.changeCity(city);
     }
 
-    render(){
-        let newList = this.props.list.filter((item)=>{
-            return this.list.every((val)=>{
+    render() {
+        let newList = this.props.list.filter((item) => {
+            return this.list.every((val) => {
                 return !(val.city === item.city && val.code === item.code);
             })
         });
         this.list = this.list.concat(newList);
 
-        let cities = this.list.map((city, i) =>
-        {
-            if(city.city === this.props.activeCity.city)
+        let cities = this.list.map((city, i) => {
+            if (city.city === this.props.activeCity.city) {
                 return <li><City isActive='active' cityInfo={city}/></li>;
-            else
+            } else {
                 return <li onClick={this.changeCity.bind(this, city)}><City isActive='' cityInfo={city}/></li>;
+            }
         });
 
         return(

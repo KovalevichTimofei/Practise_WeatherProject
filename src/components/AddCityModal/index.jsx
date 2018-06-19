@@ -44,10 +44,10 @@ export default class Model extends Component{
 
     render() {
         let self = this;
-        function add(){
+        function add() {
             let list = JSON.parse(self.myStorage.getItem('citiesList'));
 
-            if(list === null || list === undefined){
+            if (list === null || list === undefined) {
                 list = [];
             }
 

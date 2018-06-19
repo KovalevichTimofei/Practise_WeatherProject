@@ -1,8 +1,7 @@
 import React, {Component, Fragment} from 'react';
-//import './styles.css'
 
-class Day extends Component{
-    render(){
+class Day extends Component {
+    render() {
         return(
             <Fragment>
             <div className="row">

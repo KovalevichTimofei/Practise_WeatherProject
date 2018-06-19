@@ -2,15 +2,14 @@ import React, {Component} from 'react';
 import CitiesList from '../CitiesList';
 import AddCityModal from '../AddCityModal';
 
-class Cities extends Component{
+class Cities extends Component {
 
     myStorage = window.localStorage;
 
-    componentWillMount(){
+    componentWillMount() {
         //this.myStorage.removeItem('citiesList');
         let list = JSON.parse(this.myStorage.getItem('citiesList'));
-        if(list === null)
-        {
+        if(list === null) {
             list = [];
         }
         this.setState({
@@ -25,7 +24,7 @@ class Cities extends Component{
         });
     };
 
-    render(){
+    render() {
         return(
             <div className="col-xs-3 well">
                 <CitiesList list={this.state.list} changeCity={this.props.changeCity} activeCity={this.props.activeCity}/>

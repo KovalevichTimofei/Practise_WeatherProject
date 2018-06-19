@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
 import Day from '../Day';
 
-class FiveDaysWeather extends Component{
+class FiveDaysWeather extends Component {
 
-    constructor()
-    {
+    constructor() {
         super();
         this.state = {weather : [], cityInfo: {}};
         this.state.weather.fill({
@@ -25,7 +24,7 @@ class FiveDaysWeather extends Component{
 
     myStorage = window.localStorage;
 
-    prepareData(props){
+    prepareData(props) {
         //this.myStorage.removeItem('weather');
         let storWeather = JSON.parse(this.myStorage.getItem('weather')),
             curDate = new Date(),
@@ -36,13 +35,13 @@ class FiveDaysWeather extends Component{
         curDate.setDate(curDate.getDate() + 1);
         if (storWeather === undefined || storWeather[0].date.year !== curDate.getFullYear() || storWeather[0].date.monthNumber
             !== curDate.getMonth() || storWeather[0].date.dayNumber !== curDate.getDate() ) {
+
             getInformation = getInformation.bind(this);
             let weather = getInformation();
             weather.then((weather) => {
                 parseInformation(weather, this);
             });
-        }
-        else {
+        } else {
             this.setState({weather: storWeather});
         }
 
@@ -60,7 +59,7 @@ class FiveDaysWeather extends Component{
                 });
         }
 
-        function parseInformation(weather, self){
+        function parseInformation(weather, self) {
             let months = ['января','февраля','марта','апреля','мая','июня',
                 'июля','августа','сентября','октября','ноября','декабря'];
 
@@ -72,7 +71,7 @@ class FiveDaysWeather extends Component{
                     if15Hours = date.getHours() === 15;
                 return ifNotToday && if15Hours;
             });
-            console.log(usefulInformation);
+
             let resultWeather = usefulInformation.map((item) => {
                 let date = new Date(item.dt*1000);
 
@@ -99,16 +98,14 @@ class FiveDaysWeather extends Component{
 
             let key = `${props.activeCity.engCity}, ${props.activeCity.code}`;
             let storWeather = JSON.parse(self.myStorage.getItem('weather'));
-            if(storWeather === null)
-            {
+            if (storWeather === null) {
                 storWeather = {};
             }
             storWeather[key] = self.state.weather;
 
             self.myStorage.setItem('weather', JSON.stringify(storWeather));
 
-            function makeFirstLetterUpper(word)
-            {
+            function makeFirstLetterUpper(word) {
                 return `${word.charAt(0).toUpperCase()}${word.slice(1)}`;
             }
         }
@@ -122,11 +119,11 @@ class FiveDaysWeather extends Component{
         this.prepareData(nextProps);
     }
 
-    render(){
-
-        let days = this.state.weather.map((item, i)=>{
+    render() {
+        let days = this.state.weather.map((item, i) => {
             return <Day weather={item}/>;
         });
+
         return(
             <div>
             <strong> Прогноз погоды, г. {this.state.cityInfo.city} </strong>

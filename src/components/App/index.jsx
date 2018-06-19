@@ -13,14 +13,9 @@ class App extends Component {
             engCity: 'Brest',
             code: 'by'
         }
-        /*activeCity: {
-            city: 'Гродно',
-            engCity: 'Hrodna',
-            code: 'by'
-        }*/
     };
 
-    setNewActiveCity(activeCity){
+    setNewActiveCity(activeCity) {
         this.state.activeCity = activeCity;
         this.setState({
             activeCity: activeCity

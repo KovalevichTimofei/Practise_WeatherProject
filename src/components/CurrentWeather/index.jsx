@@ -35,7 +35,7 @@ class CurrentWeather extends Component {
 
     myStorage = window.localStorage;
 
-    prepareData(props){
+    prepareData(props) {
         //this.myStorage.removeItem('currentWeather');
         let key = `${props.activeCity.engCity}, ${props.activeCity.code}`,
             currentWeather = JSON.parse(this.myStorage.getItem('currentWeather')),
@@ -43,18 +43,15 @@ class CurrentWeather extends Component {
 
         currentWeather = currentWeather === null ? undefined : currentWeather[key];
 
-        //console.log(this.myStorage);
         if (currentWeather === undefined || currentWeather.date.year !== curDate.getFullYear() || currentWeather.date.monthNumber
             !== curDate.getMonth() || currentWeather.date.day !== curDate.getDate() ) {
 
             getInformation = getInformation.bind(this);
             let weather = getInformation();
-            //console.log(weather);
             weather.then((weather) => {
                 parseInformation(weather, this);
             });
-        }
-        else {
+        } else {
             this.setState({currentWeather: currentWeather, cityInfo: props.activeCity});
         }
 
@@ -75,7 +72,7 @@ class CurrentWeather extends Component {
                 });
         }
 
-        function parseInformation(weather, self){
+        function parseInformation(weather, self) {
             console.log(weather);
             let months = ['января','февраля','марта','апреля','мая','июня',
                 'июля','августа','сентября','октября','ноября','декабря'];
@@ -113,18 +110,17 @@ class CurrentWeather extends Component {
             let key = `${props.activeCity.engCity}, ${props.activeCity.code}`;
 
             let storWeather = JSON.parse(self.myStorage.getItem('currentWeather'));
-            if(storWeather === null)
-            {
+            if (storWeather === null) {
                 storWeather = {};
             }
             storWeather[key] = self.state.currentWeather;
             self.myStorage.setItem('currentWeather', JSON.stringify(storWeather));
-            function addZero(n){
+
+            function addZero(n) {
                 return n.toString().length === 1 ? `0${n}` : n;
             }
 
-            function getWindDirection(degree)
-            {
+            function getWindDirection(degree) {
                 let dir = d2d(degree);
 
                 let values = {
@@ -138,8 +134,7 @@ class CurrentWeather extends Component {
                 return result.join('-');
             }
 
-            function makeFirstLetterUpper(word)
-            {
+            function makeFirstLetterUpper(word) {
                 return `${word.charAt(0).toUpperCase()}${word.slice(1)}`;
             }
         }
@@ -149,13 +144,11 @@ class CurrentWeather extends Component {
         this.prepareData(this.props);
     }
 
-    componentWillReceiveProps(nextProps)
-    {
-        //this.state.cityInfo = nextProps.activeCity;
+    componentWillReceiveProps(nextProps) {
         this.prepareData(nextProps);
     }
 
-    render(){
+    render() {
         let imgUrl = `http://openweathermap.org/img/w/${this.state.currentWeather.icon}.png`;
         return <div className="col-lg-3 col-md-3 col-sm-3">
             <strong className="cur-weather-text"> Погода в г. {this.state.cityInfo.city}  </strong>

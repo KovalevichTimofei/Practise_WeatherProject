@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import './styles.css';
 
-class Footer extends Component{
-    render(){
+class Footer extends Component {
+    render() {
         return(
             <footer>
                 © 2018 TimofeiWeather ® All rights reserved.
