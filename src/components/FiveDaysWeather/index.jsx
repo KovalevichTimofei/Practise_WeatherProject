@@ -25,7 +25,7 @@ class FiveDaysWeather extends Component {
     myStorage = window.localStorage;
 
     prepareData(props) {
-        //this.myStorage.removeItem('weather');
+        this.myStorage.removeItem('weather');
         let storWeather = JSON.parse(this.myStorage.getItem('weather')),
             curDate = new Date(),
             key = `${props.activeCity.city}, ${props.activeCity.code}`;
@@ -48,7 +48,7 @@ class FiveDaysWeather extends Component {
 
     }
 
-    getInformation = (props) => {
+    getInformation(props) {
         let result;
         let info = props.activeCity;
 
@@ -62,7 +62,7 @@ class FiveDaysWeather extends Component {
             });
     }
 
-    parseInformation = (weather, props) => {
+    parseInformation(weather, props) {
         let months = ['января', 'февраля', 'марта', 'апреля', 'мая', 'июня',
             'июля', 'августа', 'сентября', 'октября', 'ноября', 'декабря'];
 

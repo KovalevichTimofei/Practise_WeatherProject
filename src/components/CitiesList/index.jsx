@@ -24,6 +24,7 @@ class CitiesList extends Component {
                 return !(val.city === item.city && val.code === item.code);
             })
         });
+
         this.list = this.list.concat(newList);
 
         this.list = this.list.filter( (item) => {

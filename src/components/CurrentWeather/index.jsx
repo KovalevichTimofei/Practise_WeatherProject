@@ -36,7 +36,7 @@ class CurrentWeather extends Component {
     myStorage = window.localStorage;
 
     prepareData(props) {
-        //this.myStorage.removeItem('currentWeather');
+        this.myStorage.removeItem('currentWeather');
         let key = `${props.activeCity.engCity}, ${props.activeCity.code}`,
             currentWeather = JSON.parse(this.myStorage.getItem('currentWeather')),
             curDate = new Date();
@@ -55,7 +55,7 @@ class CurrentWeather extends Component {
         }
     }
 
-    getInformation = (props) => {
+    getInformation(props) {
         let result;
         let info = props.activeCity;
         return fetch(`http://api.openweathermap.org/data/2.5/weather?q=${info.engCity},${info.code}&type=like&APPID=f40fe3edc5d5eccab2a08d022a005dea&lang=ru`)
@@ -68,7 +68,7 @@ class CurrentWeather extends Component {
             });
     };
 
-    parseInformation = (weather, props) => {
+    parseInformation(weather, props) {
         let months = ['января','февраля','марта','апреля','мая','июня',
             'июля','августа','сентября','октября','ноября','декабря'];
 
@@ -112,11 +112,11 @@ class CurrentWeather extends Component {
         this.myStorage.setItem('currentWeather', JSON.stringify(storWeather));
     };
 
-    addZero = (n) => {
+    addZero(n) {
         return n.toString().length === 1 ? `0${n}` : n;
     };
 
-    getWindDirection = (degree) => {
+    getWindDirection(degree) {
         let dir = d2d(degree);
 
         let values = {
@@ -130,7 +130,7 @@ class CurrentWeather extends Component {
         return result.join('-');
     };
 
-    makeFirstLetterUpper = (word) => {
+    makeFirstLetterUpper(word) {
         return `${word.charAt(0).toUpperCase()}${word.slice(1)}`;
     };
 
