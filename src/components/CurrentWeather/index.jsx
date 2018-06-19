@@ -46,99 +46,93 @@ class CurrentWeather extends Component {
         if (currentWeather === undefined || currentWeather.date.year !== curDate.getFullYear() || currentWeather.date.monthNumber
             !== curDate.getMonth() || currentWeather.date.day !== curDate.getDate() ) {
 
-            getInformation = getInformation.bind(this);
-            let weather = getInformation();
+            let weather = this.getInformation(props);
             weather.then((weather) => {
-                parseInformation(weather, this);
+                this.parseInformation(weather, props);
             });
         } else {
             this.setState({currentWeather: currentWeather, cityInfo: props.activeCity});
         }
-
-        function getInformation() {
-            let result;
-            let info = props.activeCity;
-            console.log(info);
-            console.log(info.engCity);
-            console.log(`http://api.openweathermap.org/data/2.5/weather?q=${info.engCity},${info.code}&type=like&APPID=f40fe3edc5d5eccab2a08d022a005dea&lang=ru`);
-
-            return fetch(`http://api.openweathermap.org/data/2.5/weather?q=${info.engCity},${info.code}&type=like&APPID=f40fe3edc5d5eccab2a08d022a005dea&lang=ru`)
-                .then(function (response) {
-                    return response.json();
-                })
-                .catch( function(e)
-                {
-                    alert(e);
-                });
-        }
-
-        function parseInformation(weather, self) {
-            console.log(weather);
-            let months = ['января','февраля','марта','апреля','мая','июня',
-                'июля','августа','сентября','октября','ноября','декабря'];
-
-            let date = new Date(weather.dt*1000),
-                sunrise = new Date (weather.sys.sunrise*1000),
-                sunset = new Date (weather.sys.sunset*1000);
-
-            self.setState({
-                currentWeather: {
-                    temperature: weather.main.temp - 273.15,
-                    date: {
-                        year: date.getFullYear(),
-                        day: date.getDate(),
-                        month: months[date.getMonth()],
-                        monthNumber: date.getMonth()
-                    },
-                    wind: {
-                        speed: weather.wind.speed,
-                        gust: weather.wind.gust,
-                        direction: getWindDirection(weather.wind.deg)
-                    },
-                    cloudness: makeFirstLetterUpper(weather.weather[0].description),
-                    pressure: weather.main.pressure,
-                    humidity: weather.main.humidity,
-                    sun: {
-                        sunrise: `${addZero(sunrise.getHours())}:${addZero(sunrise.getMinutes())}`,
-                        sunset: `${addZero(sunset.getHours())}:${addZero(sunset.getMinutes())}`
-                    },
-                    icon: weather.weather[0].icon
-                },
-                cityInfo: props.activeCity
-            });
-
-            let key = `${props.activeCity.engCity}, ${props.activeCity.code}`;
-
-            let storWeather = JSON.parse(self.myStorage.getItem('currentWeather'));
-            if (storWeather === null) {
-                storWeather = {};
-            }
-            storWeather[key] = self.state.currentWeather;
-            self.myStorage.setItem('currentWeather', JSON.stringify(storWeather));
-
-            function addZero(n) {
-                return n.toString().length === 1 ? `0${n}` : n;
-            }
-
-            function getWindDirection(degree) {
-                let dir = d2d(degree);
-
-                let values = {
-                    'E' : 'ост',
-                    'N' : 'норд',
-                    'S' : 'зюйд',
-                    'W' : 'вест'
-                };
-                let result = dir.split('').map( (item) => values[item] );
-                result[0] = makeFirstLetterUpper(result[0]);
-                return result.join('-');
-            }
-
-            function makeFirstLetterUpper(word) {
-                return `${word.charAt(0).toUpperCase()}${word.slice(1)}`;
-            }
-        }
     }
+
+    getInformation = (props) => {
+        let result;
+        let info = props.activeCity;
+        return fetch(`http://api.openweathermap.org/data/2.5/weather?q=${info.engCity},${info.code}&type=like&APPID=f40fe3edc5d5eccab2a08d022a005dea&lang=ru`)
+            .then(function (response) {
+                return response.json();
+            })
+            .catch( function(e)
+            {
+                alert(e);
+            });
+    };
+
+    parseInformation = (weather, props) => {
+        let months = ['января','февраля','марта','апреля','мая','июня',
+            'июля','августа','сентября','октября','ноября','декабря'];
+
+        let date = new Date(weather.dt*1000),
+            sunrise = new Date (weather.sys.sunrise*1000),
+            sunset = new Date (weather.sys.sunset*1000);
+
+        this.setState({
+            currentWeather: {
+                temperature: weather.main.temp - 273.15,
+                date: {
+                    year: date.getFullYear(),
+                    day: date.getDate(),
+                    month: months[date.getMonth()],
+                    monthNumber: date.getMonth()
+                },
+                wind: {
+                    speed: weather.wind.speed,
+                    gust: weather.wind.gust,
+                    direction: this.getWindDirection(weather.wind.deg)
+                },
+                cloudness: this.makeFirstLetterUpper(weather.weather[0].description),
+                pressure: weather.main.pressure,
+                humidity: weather.main.humidity,
+                sun: {
+                    sunrise: `${this.addZero(sunrise.getHours())}:${this.addZero(sunrise.getMinutes())}`,
+                    sunset: `${this.addZero(sunset.getHours())}:${this.addZero(sunset.getMinutes())}`
+                },
+                icon: weather.weather[0].icon
+            },
+            cityInfo: props.activeCity
+        });
+
+        let key = `${props.activeCity.engCity}, ${props.activeCity.code}`;
+
+        let storWeather = JSON.parse(this.myStorage.getItem('currentWeather'));
+        if (storWeather === null) {
+            storWeather = {};
+        }
+        storWeather[key] = this.state.currentWeather;
+        this.myStorage.setItem('currentWeather', JSON.stringify(storWeather));
+    };
+
+    addZero = (n) => {
+        return n.toString().length === 1 ? `0${n}` : n;
+    };
+
+    getWindDirection = (degree) => {
+        let dir = d2d(degree);
+
+        let values = {
+            'E' : 'ост',
+            'N' : 'норд',
+            'S' : 'зюйд',
+            'W' : 'вест'
+        };
+        let result = dir.split('').map( (item) => values[item] );
+        result[0] = this.makeFirstLetterUpper(result[0]);
+        return result.join('-');
+    };
+
+    makeFirstLetterUpper = (word) => {
+        return `${word.charAt(0).toUpperCase()}${word.slice(1)}`;
+    };
 
     componentWillMount() {
         this.prepareData(this.props);
