@@ -25,32 +25,47 @@ class CurrentWeather extends Component {
                 sunset: ' '
             },
             icon: ''
+        },
+        cityInfo: {
+            city: '',
+            engCity: '',
+            code: ''
         }
     };
 
     myStorage = window.localStorage;
 
-    componentWillMount() {
-        let currentWeather = JSON.parse(this.myStorage.getItem('currentWeather')),
+    prepareData(props){
+        //this.myStorage.removeItem('currentWeather');
+        let key = `${props.activeCity.engCity}, ${props.activeCity.code}`,
+            currentWeather = JSON.parse(this.myStorage.getItem('currentWeather')),
             curDate = new Date();
 
-        if (currentWeather === null || currentWeather.date.year !== curDate.getFullYear() || currentWeather.date.monthNumber
+        currentWeather = currentWeather === null ? undefined : currentWeather[key];
+
+        //console.log(this.myStorage);
+        if (currentWeather === undefined || currentWeather.date.year !== curDate.getFullYear() || currentWeather.date.monthNumber
             !== curDate.getMonth() || currentWeather.date.day !== curDate.getDate() ) {
 
+            getInformation = getInformation.bind(this);
             let weather = getInformation();
+            //console.log(weather);
             weather.then((weather) => {
-                //console.log(weather);
                 parseInformation(weather, this);
             });
         }
         else {
-            this.setState({currentWeather});
+            this.setState({currentWeather: currentWeather, cityInfo: props.activeCity});
         }
 
         function getInformation() {
             let result;
+            let info = props.activeCity;
+            console.log(info);
+            console.log(info.engCity);
+            console.log(`http://api.openweathermap.org/data/2.5/weather?q=${info.engCity},${info.code}&type=like&APPID=f40fe3edc5d5eccab2a08d022a005dea&lang=ru`);
 
-            return fetch('http://api.openweathermap.org/data/2.5/weather?q=Brest,by&type=like&APPID=f40fe3edc5d5eccab2a08d022a005dea&lang=ru')
+            return fetch(`http://api.openweathermap.org/data/2.5/weather?q=${info.engCity},${info.code}&type=like&APPID=f40fe3edc5d5eccab2a08d022a005dea&lang=ru`)
                 .then(function (response) {
                     return response.json();
                 })
@@ -91,10 +106,19 @@ class CurrentWeather extends Component {
                         sunset: `${addZero(sunset.getHours())}:${addZero(sunset.getMinutes())}`
                     },
                     icon: weather.weather[0].icon
-                }
+                },
+                cityInfo: props.activeCity
             });
 
-            self.myStorage.setItem('currentWeather', JSON.stringify(self.state.currentWeather));
+            let key = `${props.activeCity.engCity}, ${props.activeCity.code}`;
+
+            let storWeather = JSON.parse(self.myStorage.getItem('currentWeather'));
+            if(storWeather === null)
+            {
+                storWeather = {};
+            }
+            storWeather[key] = self.state.currentWeather;
+            self.myStorage.setItem('currentWeather', JSON.stringify(storWeather));
             function addZero(n){
                 return n.toString().length === 1 ? `0${n}` : n;
             }
@@ -109,9 +133,8 @@ class CurrentWeather extends Component {
                     'S' : 'зюйд',
                     'W' : 'вест'
                 };
-
                 let result = dir.split('').map( (item) => values[item] );
-                result[0] = makeFirstLetterUpper(result[1]);
+                result[0] = makeFirstLetterUpper(result[0]);
                 return result.join('-');
             }
 
@@ -122,14 +145,23 @@ class CurrentWeather extends Component {
         }
     }
 
+    componentWillMount() {
+        this.prepareData(this.props);
+    }
+
+    componentWillReceiveProps(nextProps)
+    {
+        //this.state.cityInfo = nextProps.activeCity;
+        this.prepareData(nextProps);
+    }
+
     render(){
         let imgUrl = `http://openweathermap.org/img/w/${this.state.currentWeather.icon}.png`;
-
         return <div className="col-lg-3 col-md-3 col-sm-3">
-            <strong className="cur-weather-text"> Погода в Бресте </strong>
+            <strong className="cur-weather-text"> Погода в г. {this.state.cityInfo.city}  </strong>
             <img src={imgUrl}/>
             <strong className="cur-weather-text"> {this.state.currentWeather.temperature}°C </strong>
-            {this.state.currentWeather.date.day}  {this.state.currentWeather.date.month}, {this.state.currentWeather.date.year}
+            {this.state.currentWeather.date.day} {this.state.currentWeather.date.month}, {this.state.currentWeather.date.year}
             <div className="row">
                 <div className="col-lg-12 col-md-12 col-sm-12">
                     <div className="divider"/>

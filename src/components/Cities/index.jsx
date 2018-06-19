@@ -23,12 +23,12 @@ class Cities extends Component{
         this.setState({
             list: this.state.list
         });
-    }
+    };
 
     render(){
         return(
             <div className="col-xs-3 well">
-                <CitiesList list={this.state.list}/>
+                <CitiesList list={this.state.list} changeCity={this.props.changeCity} activeCity={this.props.activeCity}/>
                 <AddCityModal reRender={this.reRender.bind(this)}/>
             </div>
         );

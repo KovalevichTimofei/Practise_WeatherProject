@@ -4,7 +4,7 @@ import './styles.css';
 class City extends Component{
     render(){
         return(
-            <a className={this.props.isActive}>{this.props.city}</a>
+            <a className={this.props.isActive}>{this.props.cityInfo.city}</a>
         );
     }
 }

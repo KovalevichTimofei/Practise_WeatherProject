@@ -33,7 +33,6 @@ export default class Model extends Component{
     }
 
     afterOpenModal() {
-        // references are now sync'd and can be accessed.
         this.subtitle.style.color = '#ff0000';
     }
 
@@ -45,7 +44,6 @@ export default class Model extends Component{
 
     render() {
         let self = this;
-        //console.log(self.myStorage);
         function add(){
             let list = JSON.parse(self.myStorage.getItem('citiesList'));
 
@@ -53,19 +51,13 @@ export default class Model extends Component{
                 list = [];
             }
 
-            //console.log('before push');
-            //console.log(list);
-
             list.push({
                 city: document.getElementById('City').value,
-                code: document.getElementById('Code').value
+                code: document.getElementById('Code').value,
+                engCity: document.getElementById('EngCity').value
             });
 
-            //console.log('after push');
-            //console.log(list);
-            //console.log(self.myStorage);
             self.myStorage.setItem('citiesList', JSON.stringify(list));
-            //console.log(self.myStorage);
             self.props.reRender(list);
             self.closeModal();
         }
@@ -88,6 +80,10 @@ export default class Model extends Component{
                     <form>
                         <label>
                             Введите название города, который хотите добавить: <input type='text' id='City'/>
+                        </label>
+                        <br/>
+                        <label>
+                            Введите название этого города на английском: <input type='text' id='EngCity'/>
                         </label>
                         <br/>
                         <label>

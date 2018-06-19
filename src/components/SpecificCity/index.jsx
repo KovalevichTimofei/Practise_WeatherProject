@@ -6,7 +6,7 @@ class SpecificCity extends Component{
     render(){
         return(<div className="col-lg-6 col-md-6 col-sm-6">
             <Graph/>
-            <FiveDaysWeather/>
+            <FiveDaysWeather activeCity={this.props.activeCity}/>
         </div>);
         }
 }
