@@ -25,7 +25,7 @@ class FiveDaysWeather extends Component {
     myStorage = window.localStorage;
 
     prepareData(props) {
-        this.myStorage.removeItem('weather');
+        //this.myStorage.removeItem('weather');
         let storWeather = JSON.parse(this.myStorage.getItem('weather')),
             curDate = new Date(),
             key = `${props.activeCity.city}, ${props.activeCity.code}`;
@@ -36,7 +36,6 @@ class FiveDaysWeather extends Component {
         if (storWeather === undefined || storWeather[0].date.year !== curDate.getFullYear() || storWeather[0].date.monthNumber
             !== curDate.getMonth() || storWeather[0].date.dayNumber !== curDate.getDate() ) {
 
-            //this.getInformation = this.getInformation.bind(this);
             let weather = this.getInformation(props);
             weather.then((weather) => {
                 this.parseInformation(weather, props);
@@ -107,6 +106,22 @@ class FiveDaysWeather extends Component {
         storWeather[key] = this.state.weather;
 
         this.myStorage.setItem('weather', JSON.stringify(storWeather));
+
+        let storHistoryWeather = JSON.parse(this.myStorage.getItem('HistoryWeather'));
+        if (storHistoryWeather === null) {
+            storHistoryWeather = {};
+        }
+
+        if(storHistoryWeather[key]) {
+            if (storHistoryWeather[key].length <= 30) {
+                storHistoryWeather[key].push(this.state.weather);
+            } else {
+                storHistoryWeather[key].shift();
+                storHistoryWeather[key].push(this.state.weather);
+            }
+        }
+
+
     };
 
     makeFirstLetterUpper(word) {

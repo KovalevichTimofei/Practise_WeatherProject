@@ -34,7 +34,7 @@ export default class Model extends Component{
                 >
                     <button onClick={this.closeModal.bind(this)} className='close'>Закрыть</button>
                     <h2 ref={subtitle => this.subtitle = subtitle} className='title'>Расширение списка городов</h2>
-                    <form>
+                    <form class='form-horizontal'>
                         <label>
                             Введите название города, который хотите добавить: <input type='text' id='City'/>
                         </label>

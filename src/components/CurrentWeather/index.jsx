@@ -36,7 +36,7 @@ class CurrentWeather extends Component {
     myStorage = window.localStorage;
 
     prepareData(props) {
-        this.myStorage.removeItem('currentWeather');
+        //this.myStorage.removeItem('currentWeather');
         let key = `${props.activeCity.engCity}, ${props.activeCity.code}`,
             currentWeather = JSON.parse(this.myStorage.getItem('currentWeather')),
             curDate = new Date();
@@ -78,7 +78,7 @@ class CurrentWeather extends Component {
 
         this.setState({
             currentWeather: {
-                temperature: weather.main.temp - 273.15,
+                temperature: Math.round(weather.main.temp - 273.15),
                 date: {
                     year: date.getFullYear(),
                     day: date.getDate(),
@@ -110,6 +110,21 @@ class CurrentWeather extends Component {
         }
         storWeather[key] = this.state.currentWeather;
         this.myStorage.setItem('currentWeather', JSON.stringify(storWeather));
+
+        let storHistoryWeather = JSON.parse(this.myStorage.getItem('currentHistoryWeather'));
+        if (storHistoryWeather === null) {
+            storHistoryWeather = {};
+        }
+
+        if(storHistoryWeather[key]) {
+            if (storHistoryWeather[key].length <= 30) {
+                storHistoryWeather[key].push(this.state.currentWeather);
+            } else {
+                storHistoryWeather[key].shift();
+                storHistoryWeather[key].push(this.state.currentWeather);
+            }
+        }
+        this.myStorage.setItem('currentHistoryWeather', JSON.stringify(storHistoryWeather));
     };
 
     addZero(n) {

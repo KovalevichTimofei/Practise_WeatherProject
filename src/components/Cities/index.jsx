@@ -7,7 +7,7 @@ class Cities extends Component {
     myStorage = window.localStorage;
 
     componentWillMount() {
-        this.myStorage.removeItem('citiesList');
+        //this.myStorage.removeItem('citiesList');
         let list = JSON.parse(this.myStorage.getItem('citiesList'));
         if(list === null) {
             list = [];
