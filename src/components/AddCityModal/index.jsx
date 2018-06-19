@@ -1,18 +1,7 @@
 import React, { Component } from 'react';
 import Modal from 'react-modal';
 import AddCity from '../AddCity';
-
-const customStyles = {
-    content : {
-        top                   : '50%',
-        left                  : '50%',
-        right                 : 'auto',
-        bottom                : 'auto',
-        marginRight           : '-50%',
-        transform             : 'translate(-50%, -50%)',
-        backgroundColor       : 'lightgray'
-    }
-};
+import './styles.css'
 
 export default class Model extends Component{
 
@@ -22,18 +11,10 @@ export default class Model extends Component{
         this.state = {
             modalIsOpen: false
         };
-
-        this.openModal = this.openModal.bind(this);
-        this.afterOpenModal = this.afterOpenModal.bind(this);
-        this.closeModal = this.closeModal.bind(this);
     }
 
     openModal() {
         this.setState({modalIsOpen: true});
-    }
-
-    afterOpenModal() {
-        this.subtitle.style.color = '#ff0000';
     }
 
     closeModal() {
@@ -64,19 +45,16 @@ export default class Model extends Component{
 
         return (
             <div>
-                <AddCity openModal={this.openModal}/>
+                <AddCity openModal={this.openModal.bind(this)}/>
                 <Modal
+                    className='custom'
                     isOpen={this.state.modalIsOpen}
-                    onAfterOpen={this.afterOpenModal}
-                    onRequestClose={this.closeModal}
-                    style={customStyles}
+                    onAfterOpen={this.afterOpenModal.bind(this)}
+                    onRequestClose={this.closeModal.bind(this)}
                     contentLabel="Example Modal"
                 >
-
-                    <button onClick={this.closeModal} className='close'>Закрыть</button>
-                    <h2 ref={subtitle => this.subtitle = subtitle}>Расширение списка городов</h2>
-
-
+                    <button onClick={this.closeModal.bind(this)} className='close'>Закрыть</button>
+                    <h2 ref={subtitle => this.subtitle = subtitle} className='title'>Расширение списка городов</h2>
                     <form>
                         <label>
                             Введите название города, который хотите добавить: <input type='text' id='City'/>
@@ -90,7 +68,7 @@ export default class Model extends Component{
                             Введите код страны, в которой он находится: <input type='text' id='Code'/>
                         </label>
                     </form>
-                    <button onClick={add}>Добавить</button>
+                    <button className='btn btn-primary' onClick={add}>Добавить</button>
                 </Modal>
             </div>
         );

@@ -19,14 +19,18 @@ class CitiesList extends Component {
     }
 
     render() {
-        let newList = this.props.list.filter((item) => {
+        let newList = this.props.list.filter( (item) => {
             return this.list.every((val) => {
                 return !(val.city === item.city && val.code === item.code);
             })
         });
         this.list = this.list.concat(newList);
 
-        let cities = this.list.map((city, i) => {
+        this.list = this.list.filter( (item) => {
+            return item.city !== '';
+        });
+
+            let cities = this.list.map((city, i) => {
             if (city.city === this.props.activeCity.city) {
                 return <li><City isActive='active' cityInfo={city}/></li>;
             } else {

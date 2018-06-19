@@ -3,3 +3,29 @@
     right: 0;
     top: 0;
 }
+
+.title{
+    font-family: cursive;
+}
+
+.custom{
+    border-radius: 20px;
+    border-style: none;
+    padding: 25px;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    right: auto;
+    bottom: auto;
+    margin-right: -50%;
+    transform: translate(-50%, -50%);
+    background-color: lightgray;
+}
+
+.custom:focus{
+    outline: none;
+}
+
+h2{
+    color: #565458;
+}
