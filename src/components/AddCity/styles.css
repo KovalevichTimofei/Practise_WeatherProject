@@ -9,4 +9,5 @@
 
 .add-city:hover{
     background-color: lightgray;
+    cursor: pointer;
 }
