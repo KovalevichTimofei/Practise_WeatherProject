@@ -25,17 +25,17 @@ class FiveDaysWeather extends Component {
     myStorage = window.localStorage;
 
     prepareData(props) {
-        //this.myStorage.removeItem('weather');
+        this.myStorage.removeItem('weather');
         let storWeather = JSON.parse(this.myStorage.getItem('weather')),
             curDate = new Date(),
-            key = `${props.activeCity.city}, ${props.activeCity.code}`;
-
+            key = `${props.activeCity.engCity}, ${props.activeCity.code}`;
         storWeather = storWeather === null ? undefined : storWeather[key];
-
         curDate.setDate(curDate.getDate() + 1);
+
+
+
         if (storWeather === undefined || storWeather[0].date.year !== curDate.getFullYear() || storWeather[0].date.monthNumber
             !== curDate.getMonth() || storWeather[0].date.dayNumber !== curDate.getDate() ) {
-
             let weather = this.getInformation(props);
             weather.then((weather) => {
                 this.parseInformation(weather, props);
@@ -120,8 +120,12 @@ class FiveDaysWeather extends Component {
                 storHistoryWeather[key].push(this.state.weather);
             }
         }
+        else{
+            storHistoryWeather[key] = [];
+            storHistoryWeather[key].push(this.state.weather);
+        }
 
-
+        this.myStorage.setItem('HistoryWeather', JSON.stringify(storHistoryWeather));
     };
 
     makeFirstLetterUpper(word) {

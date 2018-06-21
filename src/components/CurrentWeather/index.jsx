@@ -124,6 +124,11 @@ class CurrentWeather extends Component {
                 storHistoryWeather[key].push(this.state.currentWeather);
             }
         }
+        else{
+            storHistoryWeather[key] = [];
+            storHistoryWeather[key].push(this.state.currentWeather);
+        }
+
         this.myStorage.setItem('currentHistoryWeather', JSON.stringify(storHistoryWeather));
     };
 
