@@ -1,4 +1,4 @@
-import React, {Component, Fragment} from 'react';
+import React, {Component} from 'react';
 import './styles.css';
 import 'chartist/dist/chartist.min.css';
 import 'chartist/dist/chartist.min';

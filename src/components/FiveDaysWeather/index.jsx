@@ -95,33 +95,28 @@ class FiveDaysWeather extends Component {
         });
 
         let key = `${props.activeCity.engCity}, ${props.activeCity.code}`;
-        let storWeather = JSON.parse(this.myStorage.getItem('weather'));
-        if (storWeather === null) {
-            storWeather = {};
-        }
-        storWeather[key] = this.state.weather;
+        this.props.saveCurrent(this.state.weather, key, 'weather');
+        this.props.saveHistory(this.state.weather, key);
 
-        this.myStorage.setItem('weather', JSON.stringify(storWeather));
-
-        let storHistoryWeather = JSON.parse(this.myStorage.getItem('HistoryWeather'));
-        if (storHistoryWeather === null) {
-            storHistoryWeather = {};
-        }
-
-        if(storHistoryWeather[key]) {
-            if (storHistoryWeather[key].length <= 30) {
-                storHistoryWeather[key].push(this.state.weather);
-            } else {
-                storHistoryWeather[key].shift();
-                storHistoryWeather[key].push(this.state.weather);
-            }
-        }
-        else{
-            storHistoryWeather[key] = [];
-            storHistoryWeather[key].push(this.state.weather);
-        }
-
-        this.myStorage.setItem('HistoryWeather', JSON.stringify(storHistoryWeather));
+        // let storHistoryWeather = JSON.parse(this.myStorage.getItem('HistoryWeather'));
+        // if (storHistoryWeather === null) {
+        //     storHistoryWeather = {};
+        // }
+        //
+        // if(storHistoryWeather[key]) {
+        //     if (storHistoryWeather[key].length <= 30) {
+        //         storHistoryWeather[key].push(this.state.weather);
+        //     } else {
+        //         storHistoryWeather[key].shift();
+        //         storHistoryWeather[key].push(this.state.weather);
+        //     }
+        // }
+        // else{
+        //     storHistoryWeather[key] = [];
+        //     storHistoryWeather[key].push(this.state.weather);
+        // }
+        //
+        // this.myStorage.setItem('HistoryWeather', JSON.stringify(storHistoryWeather));
     };
 
     makeFirstLetterUpper(word) {

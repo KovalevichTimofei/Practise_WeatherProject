@@ -47,9 +47,8 @@ class CurrentWeather extends Component {
         currentWeather = currentWeather === null ? undefined : currentWeather[this.key];
 
         if (currentWeather === undefined || currentWeather.date.year !== curDate.getFullYear() || currentWeather.date.monthNumber
-            !== curDate.getMonth() || currentWeather.date.day !== curDate.getDate() || (currentWeather.date.hour !== curDate.getHours()
-            && currentWeather.date.hour !== curDate.getHours() - 1 && currentWeather.date.hour !== curDate.getHours() - 2
-            && currentWeather.date.hour <= 15)) {
+            !== curDate.getMonth() || currentWeather.date.day !== curDate.getDate() ||
+            (currentWeather.date.hour !== curDate.getHours() && curDate.getHours() <= 15)) {
 
             let weather = this.getInformation(props);
             weather.then((weather) => {
@@ -108,53 +107,8 @@ class CurrentWeather extends Component {
             cityInfo: props.activeCity
         });
 
-        let storWeather = JSON.parse(this.myStorage.getItem('currentWeather'));
-        if (storWeather === null) {
-            storWeather = {};
-        }
-        storWeather[this.key] = this.state.currentWeather;
-        this.myStorage.setItem('currentWeather', JSON.stringify(storWeather));
-
-        let flag, now = new Date();
-
-        let storHistoryWeather = JSON.parse(this.myStorage.getItem('currentHistoryWeather'));
-        if (storHistoryWeather === null) {
-            storHistoryWeather = {};
-        }
-
-        let last = storHistoryWeather[this.key].length - 1;
-
-        if (storHistoryWeather[this.key]) {
-            flag = storHistoryWeather[this.key][last].date.year === now.getFullYear() &&
-                storHistoryWeather[this.key][last].date.monthNumber === now.getMonth() &&
-                storHistoryWeather[this.key][last].date.day === now.getDate();
-        }
-        else {
-            flag = false;
-        }
-
-        if(+this.state.currentWeather.date.hour === 15 || !flag) {
-            let storHistoryWeather = JSON.parse(this.myStorage.getItem('currentHistoryWeather'));
-            if (storHistoryWeather === null) {
-                storHistoryWeather = {};
-            }
-
-            if (storHistoryWeather[this.key]) {
-                if (storHistoryWeather[this.key].length <= 30) {
-                    storHistoryWeather[this.key].push(this.state.currentWeather);
-                } else {
-                    storHistoryWeather[this.key].shift();
-                    storHistoryWeather[this.key].push(this.state.currentWeather);
-                }
-            }
-            else {
-                storHistoryWeather[this.key] = [];
-                storHistoryWeather[this.key].push(this.state.currentWeather);
-            }
-
-            this.myStorage.setItem('currentHistoryWeather', JSON.stringify(storHistoryWeather));
-            this.props.reRender();
-        }
+        this.props.saveCurrent(this.state.currentWeather, this.key, 'currentWeather');
+        this.props.saveHistory(this.state.currentWeather, this.key);
     };
 
     addZero(n) {
@@ -188,7 +142,6 @@ class CurrentWeather extends Component {
     }
 
     render() {
-        let key = 'Brest, by';
         let imgUrl = `http://openweathermap.org/img/w/${this.state.currentWeather.icon}.png`;
         return <div className="col-lg-3 col-md-3 col-sm-3">
             <strong className="cur-weather-text"> Погода в г. {this.state.cityInfo.city}  </strong>

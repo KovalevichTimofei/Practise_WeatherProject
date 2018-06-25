@@ -14,14 +14,14 @@ export default class FiveDaysAgo extends Component {
         }
     };
 
-    prepareData(){
+    prepareData(props){
         let i, specific;
 
         for(i = 4; i > 0; i--) {
             let ago = new Date();
             ago.setDate(ago.getDate() - i);
 
-            let ago5 = JSON.parse(this.myStorage.getItem('HistoryWeather'))[this.props.cityKey];
+            let ago5 = JSON.parse(this.myStorage.getItem('HistoryWeather'))[props.cityKey];
             specific = ago5.filter((item) => {
                 if (item[0].date.dayNumber === ago.getDate()) {
                     return true;
@@ -53,16 +53,14 @@ export default class FiveDaysAgo extends Component {
                 }
             });
         }
-
-
     }
 
     componentWillMount(){
-        this.prepareData();
+        this.prepareData(this.props);
     }
 
     componentWillReceiveProps(nextProps){
-        this.prepareData();
+        this.prepareData(nextProps);
     }
 
     render() {
