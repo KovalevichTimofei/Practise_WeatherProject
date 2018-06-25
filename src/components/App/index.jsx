@@ -16,16 +16,9 @@ class App extends Component {
         }
     };
 
-    key = `${this.state.activeCity.engCity}, ${this.state.activeCity.code}`;
-
-    reRender(){
-        let state = this.state;
-        this.setState(state);
-        alert('reRendering');
-    }
+    cityID = `${this.state.activeCity.engCity}, ${this.state.activeCity.code}`;
 
     setNewActiveCity(activeCity) {
-        this.state.activeCity = activeCity;
         this.setState({
             activeCity: activeCity
         });
@@ -112,13 +105,13 @@ class App extends Component {
     }
 
     onCurrentWeatherLoaded(weather, placeToStore){
-        this.SaveCurrentHistory(weather, this.key, placeToStore);
-        this.SaveHistory(weather, this.key);
+        this.SaveCurrentHistory(weather, this.cityID, placeToStore);
+        this.SaveHistory(weather, this.cityID);
     }
 
     onForecastLoaded(weather, placeToStore){
-        this.SaveCurrentHistory(weather, this.key, placeToStore);
-        this.SaveForecastHistory(weather, this.key);
+        this.SaveCurrentHistory(weather, this.cityID, placeToStore);
+        this.SaveForecastHistory(weather, this.cityID);
     }
 
     render() {

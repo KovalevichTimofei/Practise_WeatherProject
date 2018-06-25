@@ -36,17 +36,17 @@ class CurrentWeather extends Component {
     };
 
     myStorage = window.localStorage;
-    key = 'Brest, by';
+    cityID = 'Brest, by';
 
     prepareData(props) {
         this.myStorage.removeItem('currentWeather');
-        this.key = `${props.activeCity.engCity}, ${props.activeCity.code}`;
+        this.cityID = `${props.activeCity.engCity}, ${props.activeCity.code}`;
         let currentWeather = JSON.parse(this.myStorage.getItem('currentWeather')),
             curDate = new Date(),
             ifDataIsNotToday = true,
             ifDataIsNotActual = true;
 
-        currentWeather = currentWeather === null ? undefined : currentWeather[this.key];
+        currentWeather = currentWeather === null ? undefined : currentWeather[this.cityID];
 
         if( currentWeather !== undefined ) {
             ifDataIsNotToday = currentWeather.date.year !== curDate.getFullYear() || currentWeather.date.monthNumber
@@ -237,7 +237,7 @@ class CurrentWeather extends Component {
                     <div className="divider"/>
                 </div>
             </div>
-            <FiveDaysAgo cityKey={this.key}/>
+            <FiveDaysAgo cityID={this.cityID}/>
             <div className="row">
                 <div className="col-lg-12 col-md-12 col-sm-12">
                     <div className="divider"/>

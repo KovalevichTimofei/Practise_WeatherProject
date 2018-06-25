@@ -38,11 +38,17 @@ class Graph extends Component {
     }
 
     prepareData(props){
-        let key = `${props.activeCity.engCity}, ${props.activeCity.code}`,
-            weatherHistory = JSON.parse(this.myStorage.getItem('currentHistoryWeather'))[key];
+        let cityID = `${props.activeCity.engCity}, ${props.activeCity.code}`,
+            weatherHistory = JSON.parse(this.myStorage.getItem('currentHistoryWeather'))[cityID];
 
-        this.data.labels = weatherHistory.map((item) => `${item.date.day} ${item.date.month}`);
-        this.data.series[0] = weatherHistory.map((item) => item.temperature);
+        if(weatherHistory !== undefined) {
+            this.data.labels = weatherHistory.map((item) => `${item.date.day} ${item.date.month}`);
+            this.data.series[0] = weatherHistory.map((item) => item.temperature);
+            return;
+        }
+
+        this.data.labels = [];
+        this.data.series[0] = [];
     }
 
     render() {

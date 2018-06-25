@@ -28,9 +28,9 @@ class FiveDaysWeather extends Component {
         this.myStorage.removeItem('weather');
         let storWeather = JSON.parse(this.myStorage.getItem('weather')),
             curDate = new Date(),
-            key = `${props.activeCity.engCity}, ${props.activeCity.code}`,
+            cityID = `${props.activeCity.engCity}, ${props.activeCity.code}`,
             ifDataIsNotToday = true;
-        storWeather = storWeather === null ? undefined : storWeather[key];
+        storWeather = storWeather === null ? undefined : storWeather[cityID];
         curDate.setDate(curDate.getDate() + 1);
 
         if( storWeather !== undefined ) {
@@ -98,8 +98,6 @@ class FiveDaysWeather extends Component {
             weather: resultWeather,
             cityInfo: props.activeCity
         });
-
-        let key = `${props.activeCity.engCity}, ${props.activeCity.code}`;
 
         this.props.onDataLoaded(this.state.weather, 'weather');
     };
