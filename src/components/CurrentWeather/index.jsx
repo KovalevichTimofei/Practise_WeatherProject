@@ -46,9 +46,12 @@ class CurrentWeather extends Component {
 
         currentWeather = currentWeather === null ? undefined : currentWeather[this.key];
 
-        if (currentWeather === undefined || currentWeather.date.year !== curDate.getFullYear() || currentWeather.date.monthNumber
-            !== curDate.getMonth() || currentWeather.date.day !== curDate.getDate() ||
-            (currentWeather.date.hour !== curDate.getHours() && curDate.getHours() <= 15)) {
+        let ifCurWeatherNotExist = currentWeather === undefined,
+            ifDataIsNotToday = currentWeather.date.year !== curDate.getFullYear() || currentWeather.date.monthNumber
+                !== curDate.getMonth() || currentWeather.date.day !== curDate.getDate(),
+            ifDataIsNotActual = currentWeather.date.hour !== curDate.getHours() && curDate.getHours() <= 15;
+
+        if (ifCurWeatherNotExist || ifDataIsNotToday || ifDataIsNotActual) {
 
             let weather = this.getInformation(props);
             weather.then((weather) => {
