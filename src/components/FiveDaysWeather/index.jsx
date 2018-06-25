@@ -150,7 +150,7 @@ class FiveDaysWeather extends Component {
                     <div className="divider"/>
                 </div>
             </div>
-                <div className='buffer'>
+                <div hidden>
                     Not important text
                 </div>
         </div>

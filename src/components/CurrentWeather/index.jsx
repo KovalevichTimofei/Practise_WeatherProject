@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import './styles.css';
 import d2d from 'degrees-to-direction';
+import FiveDaysAgo from '../FiveDaysAgo';
 
 class CurrentWeather extends Component {
 
@@ -10,7 +11,8 @@ class CurrentWeather extends Component {
             date: {
                 year: '    ',
                 day: '  ',
-                month: '  '
+                month: '  ',
+                hour: ''
             },
             wind: {
                 speed: ' ',
@@ -34,17 +36,20 @@ class CurrentWeather extends Component {
     };
 
     myStorage = window.localStorage;
+    key = 'Brest, by';
 
     prepareData(props) {
         //this.myStorage.removeItem('currentWeather');
-        let key = `${props.activeCity.engCity}, ${props.activeCity.code}`,
-            currentWeather = JSON.parse(this.myStorage.getItem('currentWeather')),
+        this.key = `${props.activeCity.engCity}, ${props.activeCity.code}`;
+        let currentWeather = JSON.parse(this.myStorage.getItem('currentWeather')),
             curDate = new Date();
 
-        currentWeather = currentWeather === null ? undefined : currentWeather[key];
+        currentWeather = currentWeather === null ? undefined : currentWeather[this.key];
 
         if (currentWeather === undefined || currentWeather.date.year !== curDate.getFullYear() || currentWeather.date.monthNumber
-            !== curDate.getMonth() || currentWeather.date.day !== curDate.getDate() ) {
+            !== curDate.getMonth() || currentWeather.date.day !== curDate.getDate() || (currentWeather.date.hour !== curDate.getHours()
+            && currentWeather.date.hour !== curDate.getHours() - 1 && currentWeather.date.hour !== curDate.getHours() - 2
+            && currentWeather.date.hour <= 15)) {
 
             let weather = this.getInformation(props);
             weather.then((weather) => {
@@ -83,7 +88,8 @@ class CurrentWeather extends Component {
                     year: date.getFullYear(),
                     day: date.getDate(),
                     month: months[date.getMonth()],
-                    monthNumber: date.getMonth()
+                    monthNumber: date.getMonth(),
+                    hour: date.getHours()
                 },
                 wind: {
                     speed: weather.wind.speed,
@@ -102,34 +108,53 @@ class CurrentWeather extends Component {
             cityInfo: props.activeCity
         });
 
-        let key = `${props.activeCity.engCity}, ${props.activeCity.code}`;
-
         let storWeather = JSON.parse(this.myStorage.getItem('currentWeather'));
         if (storWeather === null) {
             storWeather = {};
         }
-        storWeather[key] = this.state.currentWeather;
+        storWeather[this.key] = this.state.currentWeather;
         this.myStorage.setItem('currentWeather', JSON.stringify(storWeather));
+
+        let flag, now = new Date();
 
         let storHistoryWeather = JSON.parse(this.myStorage.getItem('currentHistoryWeather'));
         if (storHistoryWeather === null) {
             storHistoryWeather = {};
         }
 
-        if(storHistoryWeather[key]) {
-            if (storHistoryWeather[key].length <= 30) {
-                storHistoryWeather[key].push(this.state.currentWeather);
-            } else {
-                storHistoryWeather[key].shift();
-                storHistoryWeather[key].push(this.state.currentWeather);
-            }
+        let last = storHistoryWeather[this.key].length - 1;
+
+        if (storHistoryWeather[this.key]) {
+            flag = storHistoryWeather[this.key][last].date.year === now.getFullYear() &&
+                storHistoryWeather[this.key][last].date.monthNumber === now.getMonth() &&
+                storHistoryWeather[this.key][last].date.day === now.getDate();
         }
-        else{
-            storHistoryWeather[key] = [];
-            storHistoryWeather[key].push(this.state.currentWeather);
+        else {
+            flag = false;
         }
 
-        this.myStorage.setItem('currentHistoryWeather', JSON.stringify(storHistoryWeather));
+        if(+this.state.currentWeather.date.hour === 15 || !flag) {
+            let storHistoryWeather = JSON.parse(this.myStorage.getItem('currentHistoryWeather'));
+            if (storHistoryWeather === null) {
+                storHistoryWeather = {};
+            }
+
+            if (storHistoryWeather[this.key]) {
+                if (storHistoryWeather[this.key].length <= 30) {
+                    storHistoryWeather[this.key].push(this.state.currentWeather);
+                } else {
+                    storHistoryWeather[this.key].shift();
+                    storHistoryWeather[this.key].push(this.state.currentWeather);
+                }
+            }
+            else {
+                storHistoryWeather[this.key] = [];
+                storHistoryWeather[this.key].push(this.state.currentWeather);
+            }
+
+            this.myStorage.setItem('currentHistoryWeather', JSON.stringify(storHistoryWeather));
+            this.props.reRender();
+        }
     };
 
     addZero(n) {
@@ -163,6 +188,7 @@ class CurrentWeather extends Component {
     }
 
     render() {
+        let key = 'Brest, by';
         let imgUrl = `http://openweathermap.org/img/w/${this.state.currentWeather.icon}.png`;
         return <div className="col-lg-3 col-md-3 col-sm-3">
             <strong className="cur-weather-text"> Погода в г. {this.state.cityInfo.city}  </strong>
@@ -249,6 +275,12 @@ class CurrentWeather extends Component {
                     {this.state.currentWeather.sun.sunset}
                 </div>
             </div>
+            <div className="row">
+                <div className="col-lg-12 col-md-12 col-sm-12">
+                    <div className="divider"/>
+                </div>
+            </div>
+            <FiveDaysAgo cityKey={this.key}/>
             <div className="row">
                 <div className="col-lg-12 col-md-12 col-sm-12">
                     <div className="divider"/>

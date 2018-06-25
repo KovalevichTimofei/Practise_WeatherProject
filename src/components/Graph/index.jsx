@@ -46,13 +46,6 @@ class Graph extends Component {
     }
 
     render() {
-        let data = {
-            labels: ['21', '22', '23', '24', '25', '26'],
-            series: [
-                [30, 15, 16, 17, 18, 14]
-            ]
-        };
-
         return (
             <div>
                 <ChartistGraph data={this.data} options={this.options} type={this.type} />

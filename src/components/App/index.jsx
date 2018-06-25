@@ -15,6 +15,12 @@ class App extends Component {
         }
     };
 
+    reRender(){
+        let state = this.state;
+        this.setState(state);
+        alert('reRendering');
+    }
+
     setNewActiveCity(activeCity) {
         this.state.activeCity = activeCity;
         this.setState({
@@ -29,7 +35,7 @@ class App extends Component {
                 <Header/>
                     <section className="row" id='main'>
                         <CurrentWeather activeCity={this.state.activeCity}/>
-                        <SpecificCity activeCity={this.state.activeCity}/>
+                        <SpecificCity activeCity={this.state.activeCity} reRender={this.reRender}/>
                         <Cities changeCity={this.setNewActiveCity.bind(this)} activeCity={this.state.activeCity}/>
                     </section>
                 </div>
