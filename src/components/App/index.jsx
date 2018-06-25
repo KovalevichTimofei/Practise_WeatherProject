@@ -16,6 +16,8 @@ class App extends Component {
         }
     };
 
+    key = `${this.state.activeCity.engCity}, ${this.state.activeCity.code}`;
+
     reRender(){
         let state = this.state;
         this.setState(state);
@@ -30,7 +32,6 @@ class App extends Component {
     }
 
     SaveCurrentHistory(currentWeather, key, objectName){
-        alert('save!');
         let storWeather = JSON.parse(window.localStorage.getItem(objectName));
         if (storWeather === null) {
             storWeather = {};
@@ -38,7 +39,6 @@ class App extends Component {
         storWeather[key] = currentWeather;
         window.localStorage.setItem(objectName, JSON.stringify(storWeather));
     }
-
     SaveHistory(currentWeather,key){
         let flag, now = new Date();
 
@@ -89,9 +89,8 @@ class App extends Component {
             window.localStorage.setItem('currentHistoryWeather', JSON.stringify(storHistoryWeather));
         }
     }
-
     SaveForecastHistory(weather,key){
-        let storHistoryWeather = JSON.parse(this.myStorage.getItem('HistoryWeather'));
+        let storHistoryWeather = JSON.parse(window.localStorage.getItem('HistoryWeather'));
         if (storHistoryWeather === null) {
             storHistoryWeather = {};
         }
@@ -109,7 +108,17 @@ class App extends Component {
             storHistoryWeather[key].push(weather);
         }
 
-        this.myStorage.setItem('HistoryWeather', JSON.stringify(storHistoryWeather));
+        window.localStorage.setItem('HistoryWeather', JSON.stringify(storHistoryWeather));
+    }
+
+    onCurrentWeatherLoaded(weather, placeToStore){
+        this.SaveCurrentHistory(weather, this.key, placeToStore);
+        this.SaveHistory(weather, this.key);
+    }
+
+    onForecastLoaded(weather, placeToStore){
+        this.SaveCurrentHistory(weather, this.key, placeToStore);
+        this.SaveForecastHistory(weather, this.key);
     }
 
     render() {
@@ -119,13 +128,11 @@ class App extends Component {
                 <Header/>
                     <section className="row" id='main'>
                         <CurrentWeather activeCity={this.state.activeCity}
-                                        saveCurrent={this.SaveCurrentHistory}
-                                        saveHistory={this.SaveHistory}/>
+                                        onDataLoaded={this.onCurrentWeatherLoaded.bind(this)}/>
                         <div className="col-lg-6 col-md-6 col-sm-6">
                             <Graph activeCity={this.state.activeCity}/>
                             <FiveDaysWeather activeCity={this.state.activeCity}
-                                             saveCurrent={this.SaveCurrentHistory}
-                                             saveHistory={this.SaveForecastHistory}/>
+                                             onDataLoaded={this.onForecastLoaded.bind(this)}/>
                         </div>
                         <Cities changeCity={this.setNewActiveCity.bind(this)} activeCity={this.state.activeCity}/>
                     </section>

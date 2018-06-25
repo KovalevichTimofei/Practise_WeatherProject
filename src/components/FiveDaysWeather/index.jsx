@@ -25,18 +25,20 @@ class FiveDaysWeather extends Component {
     myStorage = window.localStorage;
 
     prepareData(props) {
-        //this.myStorage.removeItem('weather');
+        this.myStorage.removeItem('weather');
         let storWeather = JSON.parse(this.myStorage.getItem('weather')),
             curDate = new Date(),
-            key = `${props.activeCity.engCity}, ${props.activeCity.code}`;
+            key = `${props.activeCity.engCity}, ${props.activeCity.code}`,
+            ifDataIsNotToday = true;
         storWeather = storWeather === null ? undefined : storWeather[key];
         curDate.setDate(curDate.getDate() + 1);
 
-        let ifStorWeatherNotExist = storWeather === undefined,
+        if( storWeather !== undefined ) {
             ifDataIsNotToday = storWeather[0].date.year !== curDate.getFullYear() || storWeather[0].date.monthNumber
                 !== curDate.getMonth() || storWeather[0].date.dayNumber !== curDate.getDate();
+        }
 
-        if ( ifStorWeatherNotExist || ifDataIsNotToday ) {
+        if ( ifDataIsNotToday ) {
             let weather = this.getInformation(props);
             weather.then((weather) => {
                 this.parseInformation(weather, props);
@@ -98,8 +100,8 @@ class FiveDaysWeather extends Component {
         });
 
         let key = `${props.activeCity.engCity}, ${props.activeCity.code}`;
-        this.props.saveCurrent(this.state.weather, key, 'weather');
-        this.props.saveHistory(this.state.weather, key);
+
+        this.props.onDataLoaded(this.state.weather, 'weather');
     };
 
     makeFirstLetterUpper(word) {

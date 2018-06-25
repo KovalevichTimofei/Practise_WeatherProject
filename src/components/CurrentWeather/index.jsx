@@ -39,19 +39,22 @@ class CurrentWeather extends Component {
     key = 'Brest, by';
 
     prepareData(props) {
-        //this.myStorage.removeItem('currentWeather');
+        this.myStorage.removeItem('currentWeather');
         this.key = `${props.activeCity.engCity}, ${props.activeCity.code}`;
         let currentWeather = JSON.parse(this.myStorage.getItem('currentWeather')),
-            curDate = new Date();
+            curDate = new Date(),
+            ifDataIsNotToday = true,
+            ifDataIsNotActual = true;
 
         currentWeather = currentWeather === null ? undefined : currentWeather[this.key];
 
-        let ifCurWeatherNotExist = currentWeather === undefined,
+        if( currentWeather !== undefined ) {
             ifDataIsNotToday = currentWeather.date.year !== curDate.getFullYear() || currentWeather.date.monthNumber
                 !== curDate.getMonth() || currentWeather.date.day !== curDate.getDate(),
-            ifDataIsNotActual = currentWeather.date.hour !== curDate.getHours() && curDate.getHours() <= 15;
+                ifDataIsNotActual = currentWeather.date.hour !== curDate.getHours() && curDate.getHours() <= 15;
+        }
 
-        if (ifCurWeatherNotExist || ifDataIsNotToday || ifDataIsNotActual) {
+        if (ifDataIsNotToday || ifDataIsNotActual) {
 
             let weather = this.getInformation(props);
             weather.then((weather) => {
@@ -68,8 +71,7 @@ class CurrentWeather extends Component {
         return fetch(`http://api.openweathermap.org/data/2.5/weather?q=${info.engCity},${info.code}&type=like&APPID=f40fe3edc5d5eccab2a08d022a005dea&lang=ru`)
             .then(function (response) {
                 return response.json();
-            })
-            .catch( function(e)
+            }).catch( function(e)
             {
                 alert(e);
             });
@@ -110,8 +112,7 @@ class CurrentWeather extends Component {
             cityInfo: props.activeCity
         });
 
-        this.props.saveCurrent(this.state.currentWeather, this.key, 'currentWeather');
-        this.props.saveHistory(this.state.currentWeather, this.key);
+        this.props.onDataLoaded(this.state.currentWeather, 'currentWeather');
     };
 
     addZero(n) {
