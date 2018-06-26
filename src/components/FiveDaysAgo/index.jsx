@@ -22,6 +22,7 @@ export default class FiveDaysAgo extends Component {
             ago.setDate(ago.getDate() - i);
 
             let ago5 = JSON.parse(this.myStorage.getItem('HistoryWeather'))[props.cityID];
+
             if(ago5 === undefined){
                 i = 0;
                 break;
@@ -53,7 +54,7 @@ export default class FiveDaysAgo extends Component {
                     wind:'Ещё нет в истории погоды',
                     pressure:'Ещё нет в истории погоды',
                     cloudness:'Ещё нет в истории погоды',
-                    agoNumber: 5
+                    agoNumber: 4
                 }
             });
         }
@@ -70,7 +71,7 @@ export default class FiveDaysAgo extends Component {
     render() {
         return(
             <div>
-                <strong className="cur-weather-text"> {this.state.weather.agoNumber} дней назад на сегодня обещали: </strong>
+                <strong className="cur-weather-text"> {this.state.weather.agoNumber} дня назад на сегодня обещали: </strong>
                 <strong className="cur-weather-text"> {this.state.weather.temperature}°C </strong>
                 <br/>
                 <p>

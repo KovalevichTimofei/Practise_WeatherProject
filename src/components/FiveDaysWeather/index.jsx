@@ -25,7 +25,7 @@ class FiveDaysWeather extends Component {
     myStorage = window.localStorage;
 
     prepareData(props) {
-        this.myStorage.removeItem('weather');
+        //this.myStorage.removeItem('weather');
         let storWeather = JSON.parse(this.myStorage.getItem('weather')),
             curDate = new Date(),
             cityID = `${props.activeCity.engCity}, ${props.activeCity.code}`,
@@ -99,7 +99,7 @@ class FiveDaysWeather extends Component {
             cityInfo: props.activeCity
         });
 
-        this.props.onDataLoaded(this.state.weather, 'weather');
+        this.props.onDataLoaded(this.state.weather);
     };
 
     makeFirstLetterUpper(word) {

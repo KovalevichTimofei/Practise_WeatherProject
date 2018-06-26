@@ -39,7 +39,7 @@ class Graph extends Component {
 
     prepareData(props){
         let cityID = `${props.activeCity.engCity}, ${props.activeCity.code}`,
-            weatherHistory = JSON.parse(this.myStorage.getItem('currentHistoryWeather'))[cityID];
+            weatherHistory = this.props.weatherHistory[cityID];
 
         if(weatherHistory !== undefined) {
             this.data.labels = weatherHistory.map((item) => `${item.date.day} ${item.date.month}`);

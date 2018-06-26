@@ -39,7 +39,7 @@ class CurrentWeather extends Component {
     cityID = 'Brest, by';
 
     prepareData(props) {
-        this.myStorage.removeItem('currentWeather');
+        //this.myStorage.removeItem('currentWeather');
         this.cityID = `${props.activeCity.engCity}, ${props.activeCity.code}`;
         let currentWeather = JSON.parse(this.myStorage.getItem('currentWeather')),
             curDate = new Date(),
@@ -50,7 +50,7 @@ class CurrentWeather extends Component {
 
         if( currentWeather !== undefined ) {
             ifDataIsNotToday = currentWeather.date.year !== curDate.getFullYear() || currentWeather.date.monthNumber
-                !== curDate.getMonth() || currentWeather.date.day !== curDate.getDate(),
+                !== curDate.getMonth() || currentWeather.date.day !== curDate.getDate();
                 ifDataIsNotActual = currentWeather.date.hour !== curDate.getHours() && curDate.getHours() <= 15;
         }
 
@@ -93,7 +93,7 @@ class CurrentWeather extends Component {
                     day: date.getDate(),
                     month: months[date.getMonth()],
                     monthNumber: date.getMonth(),
-                    hour: date.getHours()
+                    hour: (new Date()).getHours()
                 },
                 wind: {
                     speed: weather.wind.speed,
@@ -112,7 +112,7 @@ class CurrentWeather extends Component {
             cityInfo: props.activeCity
         });
 
-        this.props.onDataLoaded(this.state.currentWeather, 'currentWeather');
+        this.props.onDataLoaded(this.state.currentWeather);
     };
 
     addZero(n) {

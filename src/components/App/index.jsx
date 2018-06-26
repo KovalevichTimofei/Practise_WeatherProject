@@ -19,12 +19,14 @@ class App extends Component {
     cityID = `${this.state.activeCity.engCity}, ${this.state.activeCity.code}`;
 
     setNewActiveCity(activeCity) {
+        this.state.activeCity = activeCity;
         this.setState({
-            activeCity: activeCity
+            activeCity: this.state.activeCity
         });
+        this.cityID = `${this.state.activeCity.engCity}, ${this.state.activeCity.code}`;
     }
 
-    SaveCurrentHistory(currentWeather, key, objectName){
+    saveDailyData(currentWeather, key, objectName){
         let storWeather = JSON.parse(window.localStorage.getItem(objectName));
         if (storWeather === null) {
             storWeather = {};
@@ -32,7 +34,7 @@ class App extends Component {
         storWeather[key] = currentWeather;
         window.localStorage.setItem(objectName, JSON.stringify(storWeather));
     }
-    SaveHistory(currentWeather,key){
+    saveCurrentHistory(currentWeather,key){
         let flag, now = new Date();
 
         let storHistoryWeather = JSON.parse(window.localStorage.getItem('currentHistoryWeather'));
@@ -82,13 +84,24 @@ class App extends Component {
             window.localStorage.setItem('currentHistoryWeather', JSON.stringify(storHistoryWeather));
         }
     }
-    SaveForecastHistory(weather,key){
+    saveForecastHistory(weather, key){
         let storHistoryWeather = JSON.parse(window.localStorage.getItem('HistoryWeather'));
+
         if (storHistoryWeather === null) {
             storHistoryWeather = {};
         }
 
         if(storHistoryWeather[key]) {
+            let last = storHistoryWeather[key].length - 1,
+            now = new Date();
+            now.setDate(now.getDate() + 1);
+            if(storHistoryWeather[key][last][0].date.dayNumber === now.getDate())
+            {
+                alert('Normal (forecast)!');
+                storHistoryWeather[key].pop();
+                storHistoryWeather[key].push(weather);
+                return;
+            }
             if (storHistoryWeather[key].length <= 30) {
                 storHistoryWeather[key].push(weather);
             } else {
@@ -104,14 +117,14 @@ class App extends Component {
         window.localStorage.setItem('HistoryWeather', JSON.stringify(storHistoryWeather));
     }
 
-    onCurrentWeatherLoaded(weather, placeToStore){
-        this.SaveCurrentHistory(weather, this.cityID, placeToStore);
-        this.SaveHistory(weather, this.cityID);
+    onCurrentWeatherLoaded(weather){
+        this.saveDailyData(weather, this.cityID, 'currentWeather');
+        this.saveCurrentHistory(weather, this.cityID);
     }
 
-    onForecastLoaded(weather, placeToStore){
-        this.SaveCurrentHistory(weather, this.cityID, placeToStore);
-        this.SaveForecastHistory(weather, this.cityID);
+    onForecastLoaded(weather){
+        this.saveDailyData(weather, this.cityID, 'weather');
+        this.saveForecastHistory(weather, this.cityID);
     }
 
     render() {
@@ -123,7 +136,8 @@ class App extends Component {
                         <CurrentWeather activeCity={this.state.activeCity}
                                         onDataLoaded={this.onCurrentWeatherLoaded.bind(this)}/>
                         <div className="col-lg-6 col-md-6 col-sm-6">
-                            <Graph activeCity={this.state.activeCity}/>
+                            <Graph activeCity={this.state.activeCity}
+                                   weatherHistory = {JSON.parse(window.localStorage.getItem('currentHistoryWeather'))}/>
                             <FiveDaysWeather activeCity={this.state.activeCity}
                                              onDataLoaded={this.onForecastLoaded.bind(this)}/>
                         </div>
