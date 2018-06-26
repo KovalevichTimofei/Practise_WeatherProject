@@ -6,7 +6,6 @@ import ChartistGraph from 'react-chartist';
 
 class Graph extends Component {
 
-    myStorage = window.localStorage;
     data = {
         labels: [],
         series: [[]]
@@ -27,7 +26,6 @@ class Graph extends Component {
         }
     };
     type = 'Line';
-
 
     componentWillMount(){
         this.prepareData(this.props);

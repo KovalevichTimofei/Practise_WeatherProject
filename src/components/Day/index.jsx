@@ -12,7 +12,7 @@ class Day extends Component {
             <div className="row">
                 <div className="col-xs-7">
                     {this.props.weather.date.dayName}, {this.props.weather.date.dayNumber} {this.props.weather.date.monthName} {this.props.weather.date.year}
-                    <img src={this.props.weather.icon}/>
+                    <img alt='иконка' src={this.props.weather.icon}/>
                 </div>
                 <div className="col-xs-5 text-right">
                     {this.props.weather.temperature}°C, <i>{this.props.weather.cloudness}</i>

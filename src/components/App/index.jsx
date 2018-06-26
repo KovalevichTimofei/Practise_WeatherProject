@@ -34,22 +34,26 @@ class App extends Component {
         storWeather[key] = currentWeather;
         window.localStorage.setItem(objectName, JSON.stringify(storWeather));
     }
-    saveCurrentHistory(currentWeather,key){
-        let flag, now = new Date();
 
-        let storHistoryWeather = JSON.parse(window.localStorage.getItem('currentHistoryWeather'));
+    saveCurrentHistory(currentWeather,key){
+        let flag, now = new Date(), last,
+            storHistoryWeather = JSON.parse(window.localStorage.getItem('currentHistoryWeather'));
+
         if (storHistoryWeather === null) {
             storHistoryWeather = {};
         }
 
-        let last = storHistoryWeather[key].length - 1;
+        if(storHistoryWeather[key].length !== 0) {
+            last = storHistoryWeather[key].length - 1;
+        }else{
+            last = 0;
+        }
 
         if (storHistoryWeather[key]) {
             flag = storHistoryWeather[key][last].date.year === now.getFullYear() &&
                 storHistoryWeather[key][last].date.monthNumber === now.getMonth() &&
                 storHistoryWeather[key][last].date.day === now.getDate();
-        }
-        else {
+        } else {
             flag = false;
         }
 
@@ -61,11 +65,11 @@ class App extends Component {
 
             if (storHistoryWeather[key]) {
 
-                if(storHistoryWeather[key][last].date.day === now.getDate())
-                {
+                if(storHistoryWeather[key][last].date.day === now.getDate()) {
                     alert('Normal!');
                     storHistoryWeather[key].pop();
                     storHistoryWeather[key].push(currentWeather);
+                    window.localStorage.setItem('currentHistoryWeather', JSON.stringify(storHistoryWeather));
                     return;
                 }
 
@@ -75,8 +79,7 @@ class App extends Component {
                     storHistoryWeather[key].shift();
                     storHistoryWeather[key].push(currentWeather);
                 }
-            }
-            else {
+            } else {
                 storHistoryWeather[key] = [];
                 storHistoryWeather[key].push(currentWeather);
             }
@@ -84,6 +87,7 @@ class App extends Component {
             window.localStorage.setItem('currentHistoryWeather', JSON.stringify(storHistoryWeather));
         }
     }
+
     saveForecastHistory(weather, key){
         let storHistoryWeather = JSON.parse(window.localStorage.getItem('HistoryWeather'));
 
@@ -100,6 +104,7 @@ class App extends Component {
                 alert('Normal (forecast)!');
                 storHistoryWeather[key].pop();
                 storHistoryWeather[key].push(weather);
+                window.localStorage.setItem('HistoryWeather', JSON.stringify(storHistoryWeather));
                 return;
             }
             if (storHistoryWeather[key].length <= 30) {
@@ -108,8 +113,7 @@ class App extends Component {
                 storHistoryWeather[key].shift();
                 storHistoryWeather[key].push(weather);
             }
-        }
-        else{
+        } else{
             storHistoryWeather[key] = [];
             storHistoryWeather[key].push(weather);
         }

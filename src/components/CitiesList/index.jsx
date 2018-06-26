@@ -31,11 +31,11 @@ class CitiesList extends Component {
             return item.city !== '';
         });
 
-            let cities = this.list.map((city, i) => {
+        let cities = this.list.map((city, i) => {
             if (city.city === this.props.activeCity.city) {
-                return <li><City isActive='active' cityInfo={city}/></li>;
+                return <li key={i}><City isActive='active' cityInfo={city}/></li>;
             } else {
-                return <li onClick={this.changeCity.bind(this, city)}><City isActive='' cityInfo={city}/></li>;
+                return <li key={i} onClick={this.changeCity.bind(this, city)}><City isActive='' cityInfo={city}/></li>;
             }
         });
 

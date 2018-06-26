@@ -49,14 +49,12 @@ class FiveDaysWeather extends Component {
     }
 
     getInformation(props) {
-        let result;
         let info = props.activeCity;
 
         return fetch(`http://api.openweathermap.org/data/2.5/forecast?q=${info.engCity},${info.code}&type=like&APPID=f40fe3edc5d5eccab2a08d022a005dea&lang=ru`)
             .then(function (response) {
                 return response.json();
-            })
-            .catch( function(e)
+            }).catch( function(e)
             {
                 alert(e);
             });
@@ -116,7 +114,7 @@ class FiveDaysWeather extends Component {
 
     render() {
         let days = this.state.weather.map((item, i) => {
-            return <Day weather={item}/>;
+            return <Day key={i} weather={item}/>;
         });
 
         return(

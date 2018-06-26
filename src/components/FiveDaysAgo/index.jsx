@@ -31,6 +31,7 @@ export default class FiveDaysAgo extends Component {
                 if (item[0].date.dayNumber === ago.getDate()) {
                     return true;
                 }
+                return false;
             });
 
             if (specific.length !== 0) break;
@@ -47,7 +48,7 @@ export default class FiveDaysAgo extends Component {
                     agoNumber: i
                 }
             });
-        }else{
+        } else {
             this.setState({
                 weather: {
                     temperature:'Ещё нет в истории погоды',
