@@ -19,14 +19,18 @@ class App extends Component {
     cityID = `${this.state.activeCity.engCity}, ${this.state.activeCity.code}`;
 
     setNewActiveCity(activeCity) {
-        this.state.activeCity = activeCity;
+        this.cityID = `${activeCity.engCity}, ${activeCity.code}`;
+
         this.setState({
-            activeCity: this.state.activeCity
+            activeCity: activeCity
         });
-        this.cityID = `${this.state.activeCity.engCity}, ${this.state.activeCity.code}`;
+
     }
 
     saveDailyData(currentWeather, key, objectName){
+        console.log(key);
+        console.log(objectName);
+        console.log(currentWeather);
         let storWeather = JSON.parse(window.localStorage.getItem(objectName));
         if (storWeather === null) {
             storWeather = {};
@@ -43,7 +47,7 @@ class App extends Component {
             storHistoryWeather = {};
         }
 
-        if(storHistoryWeather[key].length !== 0) {
+        if(storHistoryWeather[key] && storHistoryWeather[key].length !== 0) {
             last = storHistoryWeather[key].length - 1;
         }else{
             last = 0;
