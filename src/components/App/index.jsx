@@ -28,9 +28,6 @@ class App extends Component {
     }
 
     saveDailyData(currentWeather, key, objectName){
-        console.log(key);
-        console.log(objectName);
-        console.log(currentWeather);
         let storWeather = JSON.parse(window.localStorage.getItem(objectName));
         if (storWeather === null) {
             storWeather = {};
@@ -70,7 +67,6 @@ class App extends Component {
             if (storHistoryWeather[key]) {
 
                 if(storHistoryWeather[key][last].date.day === now.getDate()) {
-                    alert('Normal!');
                     storHistoryWeather[key].pop();
                     storHistoryWeather[key].push(currentWeather);
                     window.localStorage.setItem('currentHistoryWeather', JSON.stringify(storHistoryWeather));
@@ -105,7 +101,6 @@ class App extends Component {
             now.setDate(now.getDate() + 1);
             if(storHistoryWeather[key][last][0].date.dayNumber === now.getDate())
             {
-                alert('Normal (forecast)!');
                 storHistoryWeather[key].pop();
                 storHistoryWeather[key].push(weather);
                 window.localStorage.setItem('HistoryWeather', JSON.stringify(storHistoryWeather));

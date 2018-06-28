@@ -5,56 +5,51 @@ import FiveDaysAgo from '../FiveDaysAgo';
 
 class CurrentWeather extends Component {
 
-    state = {
-        currentWeather: {
-            temperature: '  ',
-            date: {
-                year: '    ',
-                day: '  ',
-                month: '  ',
-                hour: ''
-            },
-            wind: {
-                speed: ' ',
-                gust: ' ',
-                direction: ' '
-            },
-            cloudness: '  ',
-            pressure: '    ',
-            humidity: '  ',
-            sun: {
-                sunrise: ' ',
-                sunset: ' '
-            },
-            icon: ''
+  constructor() {
+    super();
+
+    this.state = {
+      currentWeather: {
+        temperature: '  ',
+        date: {
+          year: '    ',
+          day: '  ',
+          month: '  ',
+          hour: ''
         },
-        cityInfo: {
-            city: '',
-            engCity: '',
-            code: ''
-        }
+        wind: {
+          speed: ' ',
+          gust: ' ',
+          direction: ' '
+        },
+        cloudness: '  ',
+        pressure: '    ',
+        humidity: '  ',
+        sun: {
+          sunrise: ' ',
+          sunset: ' '
+        },
+        icon: ''
+      },
+      cityInfo: {
+        city: '',
+        engCity: '',
+        code: ''
+      }
     };
 
-    myStorage = window.localStorage;
-    cityID = 'Brest, by';
+    this.myStorage = window.localStorage;
+    this.cityID = 'Brest, by';
+  }
 
     prepareData(props) {
         //this.myStorage.removeItem('currentWeather');
         this.cityID = `${props.activeCity.engCity}, ${props.activeCity.code}`;
-        let currentWeather = JSON.parse(this.myStorage.getItem('currentWeather')),
-            curDate = new Date(),
-            ifDataIsNotToday = true,
-            ifDataIsNotActual = true;
+        let currentWeather = JSON.parse(this.myStorage.getItem('currentWeather'));
 
         currentWeather = currentWeather === null ? undefined : currentWeather[this.cityID];
 
-        if( currentWeather !== undefined ) {
-            ifDataIsNotToday = currentWeather.date.year !== curDate.getFullYear() || currentWeather.date.monthNumber
-                !== curDate.getMonth() || currentWeather.date.day !== curDate.getDate();
-                ifDataIsNotActual = currentWeather.date.hour !== curDate.getHours() && curDate.getHours() <= 15;
-        }
-
-        if (ifDataIsNotToday || ifDataIsNotActual) {
+        if (this.shouldRequestServer(currentWeather)) {
             let weather = this.getInformation(props);
             weather.then((weather) => {
                 this.parseInformation(weather, props);
@@ -74,6 +69,20 @@ class CurrentWeather extends Component {
                 alert(e);
             });
     };
+
+    shouldRequestServer(currentWeather, cur){
+        let ifDataIsNotToday = true,
+          ifDataIsNotActual = true,
+          curDate = cur || new Date();
+
+        if( currentWeather !== undefined ) {
+          ifDataIsNotToday = currentWeather.date.year < curDate.getFullYear() || currentWeather.date.monthNumber
+            < curDate.getMonth() || currentWeather.date.day < curDate.getDate();
+          ifDataIsNotActual = currentWeather.date.hour < curDate.getHours() && curDate.getHours() <= 15;
+        }
+
+        return ifDataIsNotToday || ifDataIsNotActual;
+    }
 
     parseInformation(weather, props) {
         let months = ['января','февраля','марта','апреля','мая','июня',
@@ -114,7 +123,7 @@ class CurrentWeather extends Component {
     };
 
     addZero(n) {
-        return n.toString().length === 1 ? `0${n}` : n;
+        return n.toString().length === 1 ? `0${n}` : n.toString();
     };
 
     getWindDirection(degree) {
@@ -132,7 +141,9 @@ class CurrentWeather extends Component {
     };
 
     makeFirstLetterUpper(word) {
-        return `${word.charAt(0).toUpperCase()}${word.slice(1)}`;
+        return word === undefined || word === null ?
+          undefined :
+          `${word.charAt(0).toUpperCase()}${word.slice(1)}`;
     };
 
     componentWillMount() {

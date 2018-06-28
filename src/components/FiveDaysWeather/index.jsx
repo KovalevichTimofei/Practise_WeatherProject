@@ -44,7 +44,8 @@ class FiveDaysWeather extends Component {
                 this.parseInformation(weather, props);
             });
         } else {
-            this.setState({weather: storWeather});
+            this.setState({weather: storWeather,
+                           cityInfo: props.activeCity});
         }
     }
 
