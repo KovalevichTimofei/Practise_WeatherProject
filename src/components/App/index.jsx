@@ -106,7 +106,7 @@ class App extends Component {
                 window.localStorage.setItem('HistoryWeather', JSON.stringify(storHistoryWeather));
                 return;
             }
-            if (storHistoryWeather[key].length <= 30) {
+            if (storHistoryWeather[key].length <= 4) {
                 storHistoryWeather[key].push(weather);
             } else {
                 storHistoryWeather[key].shift();
@@ -136,15 +136,12 @@ class App extends Component {
                 <div className="container">
                 <Header/>
                     <section className="row" id='main'>
-                        <CurrentWeather activeCity={this.state.activeCity}
-                                        onDataLoaded={this.onCurrentWeatherLoaded.bind(this)}/>
+                        <CurrentWeather onDataLoaded={this.onCurrentWeatherLoaded.bind(this)}/>
                         <div className="col-lg-6 col-md-6 col-sm-6">
-                            <Graph activeCity={this.state.activeCity}
-                                   weatherHistory = {JSON.parse(window.localStorage.getItem('currentHistoryWeather'))}/>
-                            <FiveDaysWeather activeCity={this.state.activeCity}
-                                             onDataLoaded={this.onForecastLoaded.bind(this)}/>
+                            <Graph weatherHistory = {JSON.parse(window.localStorage.getItem('currentHistoryWeather'))}/>
+                            <FiveDaysWeather onDataLoaded={this.onForecastLoaded.bind(this)}/>
                         </div>
-                        <Cities changeCity={this.setNewActiveCity.bind(this)} activeCity={this.state.activeCity}/>
+                        <Cities/>
                     </section>
                 </div>
                 <Footer/>

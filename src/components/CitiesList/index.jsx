@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import City from '../City'
+import { connect } from 'react-redux';
 
 class CitiesList extends Component {
 
@@ -15,7 +16,10 @@ class CitiesList extends Component {
     }
 
     changeCity(city) {
-        this.props.changeCity(city);
+        this.props.dispatch({
+            type: 'CHANGE',
+            activeCity: city
+        });
     }
 
     render() {
@@ -32,7 +36,7 @@ class CitiesList extends Component {
         });
 
         let cities = this.list.map((city, i) => {
-            if (city.city === this.props.activeCity.city) {
+            if (`${city.engCity}, ${city.code}` === `${this.props.activeCity.engCity}, ${this.props.activeCity.code}`) {
                 return <li key={i}><City isActive='active' cityInfo={city}/></li>;
             } else {
                 return <li key={i} onClick={this.changeCity.bind(this, city)}><City isActive='' cityInfo={city}/></li>;
@@ -50,4 +54,8 @@ class CitiesList extends Component {
     }
 }
 
-export default CitiesList;
+const mapStateToProps = function(store) {
+    return {activeCity : store.activeCity};
+};
+
+export default connect(mapStateToProps)(CitiesList);

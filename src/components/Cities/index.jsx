@@ -39,7 +39,7 @@ class Cities extends Component {
     render() {
         return(
             <div className="col-xs-3 well">
-                <CitiesList list={this.state.list} changeCity={this.props.changeCity} activeCity={this.props.activeCity}/>
+                <CitiesList list={this.state.list}/>
                 <AddCityModal add={this.add.bind(this)}/>
             </div>
         );

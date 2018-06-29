@@ -1,11 +1,14 @@
 'use strict';
 
-import assert from 'assert';
 import CurrentWeather from '../components/CurrentWeather/index';
 import additional from './CurrentWeather.test.json';
+import cityReducer from '../city.reducer';
+import {createStore} from 'redux';
 
 describe('CurrentWeather', () => {
 
+    //console.log(CurrentWeather);
+    let store = createStore(cityReducer);
     let tasks = new CurrentWeather();
 
     test('AddZero should add zero, when number has length 1, and should not do it, if not', () => {
@@ -18,8 +21,8 @@ describe('CurrentWeather', () => {
     });
 
     test('getWindDirection should return word representation of the wind direction', () => {
-        let input = [0, 10, 45, 180],
-            expected = ['Норд', 'Норд', 'Норд-ост', 'Зюйд'];
+        let input = [0, 10, 45, 180, undefined],
+            expected = ['Норд', 'Норд', 'Норд-ост', 'Зюйд', 'Неизвестно'];
 
         input.forEach((item, i) => {
             expect(tasks.getWindDirection(item)).toBe(expected[i]);
@@ -35,7 +38,8 @@ describe('CurrentWeather', () => {
         });
     });
 
-    test('shouldRequestServer should not request when it is today and data is actual', () => {
+    test('shouldRequestServer should not request when it is today and data is actual ' +
+        '(we have data on this hour, and this hour <= 15)', () => {
         let input = {
                     "temperature": 21,
                     "date": {
@@ -70,10 +74,11 @@ describe('CurrentWeather', () => {
         });
     });
 
-    test('shouldRequestServer should request when data is not actual, but we have not data yet', () => {
+    test('shouldRequestServer should request when data is after 15 hours (actual data), but we have not data yet', () => {
         let input = undefined,
             date = new Date(2018, 5, 28, 16);
 
             expect(tasks.shouldRequestServer(input, date)).toBe(true);
     });
 });
+//TODO: make result of connect function normal Current Weather object

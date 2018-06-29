@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import './styles.css';
 import d2d from 'degrees-to-direction';
 import FiveDaysAgo from '../FiveDaysAgo';
+import { connect } from 'react-redux';
 
 class CurrentWeather extends Component {
 
@@ -127,6 +128,9 @@ class CurrentWeather extends Component {
     };
 
     getWindDirection(degree) {
+        if(degree === undefined){
+          return 'Неизвестно';
+        }
         let dir = d2d(degree);
 
         let values = {
@@ -254,6 +258,10 @@ class CurrentWeather extends Component {
             </div>
         </div>;
     }
-}
+};
 
-export default CurrentWeather;
+const mapStateToProps = function(store) {
+    return {activeCity : store.activeCity};
+};
+
+export default connect(mapStateToProps)(CurrentWeather);

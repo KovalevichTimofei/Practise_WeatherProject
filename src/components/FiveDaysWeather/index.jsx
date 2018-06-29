@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Day from '../Day';
+import { connect } from 'react-redux';
 
 class FiveDaysWeather extends Component {
 
@@ -133,6 +134,10 @@ class FiveDaysWeather extends Component {
         </div>
         );
     }
-}
+};
 
-export default FiveDaysWeather;
+const mapStateToProps = function(store) {
+    return {activeCity : store.activeCity};
+};
+
+export default connect(mapStateToProps)(FiveDaysWeather);

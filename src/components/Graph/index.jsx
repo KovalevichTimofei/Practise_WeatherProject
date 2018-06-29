@@ -3,6 +3,7 @@ import './styles.css';
 import 'chartist/dist/chartist.min.css';
 import 'chartist/dist/chartist.min';
 import ChartistGraph from 'react-chartist';
+import { connect } from 'react-redux';
 
 class Graph extends Component {
 
@@ -56,6 +57,10 @@ class Graph extends Component {
             </div>
         )
     }
-}
+};
 
-export default Graph;
+const mapStateToProps = function(store) {
+    return {activeCity : store.activeCity};
+};
+
+export default connect(mapStateToProps)(Graph);
