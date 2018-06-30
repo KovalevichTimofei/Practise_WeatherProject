@@ -5,6 +5,7 @@ import Graph from '../Graph';
 import FiveDaysWeather from '../FiveDaysWeather';
 import Cities from '../Cities';
 import Footer from '../Footer';
+import { connect } from 'react-redux';
 
 class App extends Component {
 
@@ -37,6 +38,8 @@ class App extends Component {
     }
 
     saveCurrentHistory(currentWeather,key){
+        console.log(currentWeather);
+        console.log(key);
         let flag, now = new Date(), last,
             storHistoryWeather = JSON.parse(window.localStorage.getItem('currentHistoryWeather'));
 
@@ -131,6 +134,7 @@ class App extends Component {
     }
 
     render() {
+        this.cityID = `${this.props.activeCity.engCity}, ${this.props.activeCity.code}`;
         return (
             <div>
                 <div className="container">
@@ -150,4 +154,9 @@ class App extends Component {
     }
 }
 
-export default App;
+const mapStateToProps = function(store) {
+    return {activeCity : store.activeCity};
+};
+
+//export default App;
+export default connect(mapStateToProps)(App);

@@ -79,9 +79,13 @@ class CurrentWeather extends Component {
         if( currentWeather !== undefined ) {
           ifDataIsNotToday = currentWeather.date.year < curDate.getFullYear() || currentWeather.date.monthNumber
             < curDate.getMonth() || currentWeather.date.day < curDate.getDate();
+          //console.log(currentWeather.date.year < curDate.getFullYear());
+          //console.log(currentWeather.date.monthNumber
+          //    < curDate.getMonth());
+          //console.log(currentWeather.date.day < curDate.getDate());
+
           ifDataIsNotActual = currentWeather.date.hour < curDate.getHours() && curDate.getHours() <= 15;
         }
-
         return ifDataIsNotToday || ifDataIsNotActual;
     }
 
