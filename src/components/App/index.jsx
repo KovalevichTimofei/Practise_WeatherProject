@@ -19,15 +19,6 @@ class App extends Component {
 
     cityID = `${this.state.activeCity.engCity}, ${this.state.activeCity.code}`;
 
-    setNewActiveCity(activeCity) {
-        this.cityID = `${activeCity.engCity}, ${activeCity.code}`;
-
-        this.setState({
-            activeCity: activeCity
-        });
-
-    }
-
     saveDailyData(currentWeather, key, objectName){
         let storWeather = JSON.parse(window.localStorage.getItem(objectName));
         if (storWeather === null) {
