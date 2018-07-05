@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import City from '../City'
 import { connect } from 'react-redux';
+import change from '../../actions/changeCity'
 
 class CitiesList extends Component {
 
@@ -16,10 +17,7 @@ class CitiesList extends Component {
     }
 
     changeCity(city) {
-        this.props.dispatch({
-            type: 'CHANGE',
-            activeCity: city
-        });
+        this.props.dispatch(change.changeCity(city));
     }
 
     render() {

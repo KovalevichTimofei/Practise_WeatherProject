@@ -1,3 +1,7 @@
+import changeCity from './actions/changeCity';
+
+const CHANGE = changeCity.CHANGE;
+
 const initialActiveCityState = {
     activeCity: {
         city: 'Брест',
@@ -8,7 +12,7 @@ const initialActiveCityState = {
 
 const activeCityReducer = function(state = initialActiveCityState, action) {
     switch(action.type) {
-        case 'CHANGE': {
+        case CHANGE: {
             return {
                 activeCity: action.activeCity
             };

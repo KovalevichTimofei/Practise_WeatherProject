@@ -29,8 +29,6 @@ class App extends Component {
     }
 
     saveCurrentHistory(currentWeather,key){
-        console.log(currentWeather);
-        console.log(key);
         let flag, now = new Date(), last,
             storHistoryWeather = JSON.parse(window.localStorage.getItem('currentHistoryWeather'));
 
