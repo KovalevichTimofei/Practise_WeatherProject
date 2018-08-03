@@ -118,6 +118,7 @@ class App extends Component {
     }
 
     onForecastLoaded(weather){
+        console.log(weather);
         this.saveDailyData(weather, this.cityID, 'weather');
         this.saveForecastHistory(weather, this.cityID);
     }

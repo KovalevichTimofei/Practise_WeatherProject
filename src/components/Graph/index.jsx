@@ -37,7 +37,6 @@ class Graph extends Component {
     }
 
     prepareData(props){
-        console.log(props);
         let cityID = `${props.activeCity.engCity}, ${props.activeCity.code}`,
             weatherHistory = this.props.weatherHistory[cityID];
 
