@@ -92,6 +92,7 @@ class App extends Component {
             now = new Date();
             now.setDate(now.getDate() + 1);
             console.log(storHistoryWeather[key]);
+            console.log(last);
             console.log(storHistoryWeather[key][last]);
             console.log(storHistoryWeather[key][last][0]);
             if(storHistoryWeather[key][last][0].date.dayNumber === now.getDate())
