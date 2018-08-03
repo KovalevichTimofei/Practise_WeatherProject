@@ -102,7 +102,7 @@ class FiveDaysWeather extends Component {
             cityInfo: props.activeCity
         });
 
-        this.props.onDataLoaded(this.state.weather);
+        this.props.onDataLoaded(resultWeather);
     };
 
     makeFirstLetterUpper(word) {
