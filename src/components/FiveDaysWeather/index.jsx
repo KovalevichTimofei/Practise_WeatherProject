@@ -41,6 +41,8 @@ class FiveDaysWeather extends Component {
 
         if ( ifDataIsNotToday ) {
             let weather = this.getInformation(props);
+            console.log(fetch);
+            console.log(weather);
             weather.then((weather) => {
                 this.parseInformation(weather, props);
             });
@@ -63,6 +65,7 @@ class FiveDaysWeather extends Component {
     }
 
     parseInformation(weather, props) {
+        console.log(weather);
         let months = ['января', 'февраля', 'марта', 'апреля', 'мая', 'июня',
             'июля', 'августа', 'сентября', 'октября', 'ноября', 'декабря'];
 
@@ -93,7 +96,7 @@ class FiveDaysWeather extends Component {
                 icon: `https://openweathermap.org/img/w/${item.weather[0].icon}.png`
             };
         });
-
+        console.log(resultWeather);
         this.setState({
             weather: resultWeather,
             cityInfo: props.activeCity
