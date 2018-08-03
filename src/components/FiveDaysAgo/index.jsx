@@ -30,7 +30,7 @@ export default class FiveDaysAgo extends Component {
                 this.myStorage.setItem('HistoryWeather', JSON.stringify({}));
             }
 
-            if(ago4 === undefined){
+            if(ago4 === []){
                 i = 0;
                 break;
             }

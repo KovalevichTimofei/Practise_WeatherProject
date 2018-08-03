@@ -34,7 +34,7 @@ class FiveDaysWeather extends Component {
         storWeather = storWeather === null ? undefined : storWeather[cityID];
         curDate.setDate(curDate.getDate() + 1);
 
-        if( storWeather !== undefined ) {
+        if( storWeather !== [] ) {
             ifDataIsNotToday = storWeather[0].date.year !== curDate.getFullYear() || storWeather[0].date.monthNumber
                 !== curDate.getMonth() || storWeather[0].date.dayNumber !== curDate.getDate();
         }
