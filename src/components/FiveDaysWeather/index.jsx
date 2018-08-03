@@ -19,7 +19,7 @@ class FiveDaysWeather extends Component {
             windSpeed: '',
             pressure: '',
             cloudness: '',
-            icon: 'http://openweathermap.org/img/w/01d.png'
+            icon: 'https://openweathermap.org/img/w/01d.png'
         },0,5);
     }
 
@@ -53,7 +53,7 @@ class FiveDaysWeather extends Component {
     getInformation(props) {
         let info = props.activeCity;
 
-        return fetch(`http://api.openweathermap.org/data/2.5/forecast?q=${info.engCity},${info.code}&type=like&APPID=f40fe3edc5d5eccab2a08d022a005dea&lang=ru`)
+        return fetch(`https://api.openweathermap.org/data/2.5/forecast?q=${info.engCity},${info.code}&type=like&APPID=f40fe3edc5d5eccab2a08d022a005dea&lang=ru`)
             .then(function (response) {
                 return response.json();
             }).catch( function(e)
@@ -90,7 +90,7 @@ class FiveDaysWeather extends Component {
                 windSpeed: item.wind.speed,
                 pressure: item.main.pressure,
                 cloudness: this.makeFirstLetterUpper(item.weather[0].description),
-                icon: `http://openweathermap.org/img/w/${item.weather[0].icon}.png`
+                icon: `https://openweathermap.org/img/w/${item.weather[0].icon}.png`
             };
         });
 

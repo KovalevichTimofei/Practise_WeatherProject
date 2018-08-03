@@ -62,7 +62,7 @@ class CurrentWeather extends Component {
 
     getInformation(props) {
         let info = props.activeCity;
-        return fetch(`http://api.openweathermap.org/data/2.5/weather?q=${info.engCity},${info.code}&type=like&APPID=f40fe3edc5d5eccab2a08d022a005dea&lang=ru`)
+        return fetch(`https://api.openweathermap.org/data/2.5/weather?q=${info.engCity},${info.code}&type=like&APPID=f40fe3edc5d5eccab2a08d022a005dea&lang=ru`)
             .then(function (response) {
                 return response.json();
             }).catch( function(e)
@@ -163,7 +163,7 @@ class CurrentWeather extends Component {
     }
 
     render() {
-        let imgUrl = `http://openweathermap.org/img/w/${this.state.currentWeather.icon}.png`;
+        let imgUrl = `https://openweathermap.org/img/w/${this.state.currentWeather.icon}.png`;
         return <div className="col-lg-3 col-md-3 col-sm-3">
             <strong className="cur-weather-text"> Погода в г. {this.state.cityInfo.city}  </strong>
             <img alt='иконка' src={imgUrl}/>
