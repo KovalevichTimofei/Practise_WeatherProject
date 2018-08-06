@@ -12,7 +12,7 @@ const initialActiveCityState = {
 
 const activeCityReducer = function(state = initialActiveCityState, action) {
     switch(action.type) {
-        case 'CHANGE': {
+        case CHANGE: {
             return {
                 activeCity: action.activeCity
             };

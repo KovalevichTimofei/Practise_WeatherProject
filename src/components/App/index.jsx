@@ -91,10 +91,6 @@ class App extends Component {
             let last = storHistoryWeather[key].length - 1,
             now = new Date();
             now.setDate(now.getDate() + 1);
-            console.log(storHistoryWeather[key]);
-            console.log(last);
-            console.log(storHistoryWeather[key][last]);
-            console.log(storHistoryWeather[key][last][0]);
             if(storHistoryWeather[key][last][0].date.dayNumber === now.getDate())
             {
                 storHistoryWeather[key].pop();
@@ -122,7 +118,6 @@ class App extends Component {
     }
 
     onForecastLoaded(weather){
-        console.log(weather);
         this.saveDailyData(weather, this.cityID, 'weather');
         this.saveForecastHistory(weather, this.cityID);
     }
@@ -136,7 +131,7 @@ class App extends Component {
                     <section className="row" id='main'>
                         <CurrentWeather onDataLoaded={this.onCurrentWeatherLoaded.bind(this)}/>
                         <div className="col-lg-6 col-md-6 col-sm-6">
-                            <Graph weatherHistory = {JSON.parse(window.localStorage.getItem('currentHistoryWeather'))}/>
+                            <Graph weatherHistory = {JSON.parse(window.localStorage.getItem('currentHistoryWeather')) || {}}/>
                             <FiveDaysWeather onDataLoaded={this.onForecastLoaded.bind(this)}/>
                         </div>
                         <Cities/>

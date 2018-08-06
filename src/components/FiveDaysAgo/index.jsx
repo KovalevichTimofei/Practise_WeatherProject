@@ -27,13 +27,16 @@ export default class FiveDaysAgo extends Component {
                 ago4 = JSON.parse(this.myStorage.getItem('HistoryWeather'))[props.cityID];
             }
             else{
+                console.log(false);
                 this.myStorage.setItem('HistoryWeather', JSON.stringify({}));
+                ago4 = [];
             }
 
-            if(JSON.stringify(ago4) == JSON.stringify([])){
+            if(JSON.stringify(ago4) === JSON.stringify([]) || ago4 === undefined){
                 i = 0;
                 break;
             }
+
             specific = ago4.filter((item) => {
                 if (item[0].date.dayNumber === ago.getDate()) {
                     return true;
