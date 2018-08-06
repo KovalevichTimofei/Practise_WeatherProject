@@ -91,6 +91,10 @@ class App extends Component {
             let last = storHistoryWeather[key].length - 1,
             now = new Date();
             now.setDate(now.getDate() + 1);
+            /*console.log(storHistoryWeather[key]);
+            console.log(last);
+            console.log(storHistoryWeather[key][last]);
+            console.log(storHistoryWeather[key][last][0]);*/
             if(storHistoryWeather[key][last][0].date.dayNumber === now.getDate())
             {
                 storHistoryWeather[key].pop();
@@ -120,6 +124,10 @@ class App extends Component {
     onForecastLoaded(weather){
         this.saveDailyData(weather, this.cityID, 'weather');
         this.saveForecastHistory(weather, this.cityID);
+    }
+
+    componentWillMount(){
+        window.localStorage.clear();
     }
 
     render() {

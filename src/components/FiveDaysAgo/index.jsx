@@ -38,7 +38,7 @@ export default class FiveDaysAgo extends Component {
             }
 
             specific = ago4.filter((item) => {
-                if (item[0].date.dayNumber === ago.getDate()) {
+                if (item[0] && item[0].date.dayNumber === ago.getDate()) {
                     return true;
                 }
                 return false;
