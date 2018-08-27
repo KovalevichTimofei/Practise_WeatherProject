@@ -1,49 +1,52 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import CitiesList from '../CitiesList';
 import AddCityModal from '../AddCityModal';
 
 class Cities extends Component {
+  constructor() {
+    super();
+    this.myStorage = window.localStorage;
+  }
 
-    myStorage = window.localStorage;
+  componentWillMount() {
+    //  this.myStorage.removeItem('citiesList');
+    let list = JSON.parse(this.myStorage.getItem('citiesList'));
+    if (list === null) {
+      list = [];
+    }
+    this.setState({
+      list,
+    });
+  }
 
-    componentWillMount() {
-        //this.myStorage.removeItem('citiesList');
-        let list = JSON.parse(this.myStorage.getItem('citiesList'));
-        if(list === null) {
-            list = [];
-        }
-        this.setState({
-            list: list
-        });
+  add() {
+    let list = JSON.parse(this.myStorage.getItem('citiesList'));
+
+    if (list === null || list === undefined) {
+      list = [];
     }
 
-    add() {
-        let list = JSON.parse(this.myStorage.getItem('citiesList'));
+    list.push({
+      city: document.getElementById('City').value,
+      code: document.getElementById('Code').value,
+      engCity: document.getElementById('EngCity').value,
+    });
 
-        if (list === null || list === undefined) {
-            list = [];
-        }
+    this.myStorage.setItem('citiesList', JSON.stringify(list));
+    this.setState({
+      list,
+    });
+  }
 
-        list.push({
-            city: document.getElementById('City').value,
-            code: document.getElementById('Code').value,
-            engCity: document.getElementById('EngCity').value
-        });
-
-        this.myStorage.setItem('citiesList', JSON.stringify(list));
-        this.setState({
-            list: list
-        });
-    }
-
-    render() {
-        return(
-            <div className="col-xs-3 well">
-                <CitiesList list={this.state.list}/>
-                <AddCityModal add={this.add.bind(this)}/>
-            </div>
-        );
-    }
+  render() {
+    const { list } = this.state;
+    return (
+      <div className="col-xs-3 well">
+        <CitiesList list={list} />
+        <AddCityModal add={this.add.bind(this)} />
+      </div>
+    );
+  }
 }
 
 export default Cities;

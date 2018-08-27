@@ -1,14 +1,12 @@
-import React, { Component } from 'react';
+import React from 'react';
 import './styles.css';
 
-class Header extends Component {
-    render() {
-        return(
-            <header>
-                <h1>Погода и прогноз</h1>
-            </header>
-        );
-    }
+function Header() {
+  return (
+    <header>
+      <h1>Погода и прогноз</h1>
+    </header>
+  );
 }
 
 export default Header;

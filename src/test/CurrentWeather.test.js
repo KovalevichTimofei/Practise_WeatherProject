@@ -7,7 +7,6 @@ import {createStore} from 'redux';
 
 describe('CurrentWeather', () => {
 
-    //console.log(CurrentWeather);
     let store = createStore(cityReducer);
     let tasks = new CurrentWeather();
 

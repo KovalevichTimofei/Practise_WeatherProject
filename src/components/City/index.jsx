@@ -1,12 +1,10 @@
-import React, {Component} from 'react';
+import React from 'react';
 import './styles.css';
 
-class City extends Component {
-    render() {
-        return(
-            <a className={this.props.isActive}>{this.props.cityInfo.city}</a>
-        );
-    }
+function City({ isActive, cityInfo }) {
+  return (
+    <a className={isActive}>{cityInfo.city}</a>
+  );
 }
 
 export default City;
