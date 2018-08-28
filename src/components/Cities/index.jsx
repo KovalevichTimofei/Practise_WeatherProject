@@ -8,6 +8,14 @@ class Cities extends Component {
     this.myStorage = window.localStorage;
   }
 
+  getInformation({ engCity, code  }) {
+    return fetch(`https://api.openweathermap.org/data/2.5/weather?q=${engCity},${code}&type=like&APPID=f40fe3edc5d5eccab2a08d022a005dea&lang=ru`)
+      .then(response => response.status)
+      .catch((e) => {
+        alert(e);
+      });
+  }
+
   componentWillMount() {
     //  this.myStorage.removeItem('citiesList');
     let list = JSON.parse(this.myStorage.getItem('citiesList'));
@@ -20,22 +28,40 @@ class Cities extends Component {
   }
 
   add = () => {
-    let list = JSON.parse(this.myStorage.getItem('citiesList'));
 
-    if (list === null || list === undefined) {
-      list = [];
-    }
-
-    list.push({
+    const info = {
       city: document.getElementById('City').value,
       code: document.getElementById('Code').value,
       engCity: document.getElementById('EngCity').value,
-    });
+    };
 
-    this.myStorage.setItem('citiesList', JSON.stringify(list));
-    this.setState({
-      list,
-    });
+    const { engCity, code  } = info;
+
+    return fetch(`https://api.openweathermap.org/data/2.5/weather?q=${engCity},${code}&type=like&APPID=f40fe3edc5d5eccab2a08d022a005dea&lang=ru`)
+      .then(response => response.status)
+      .then(status =>
+      {
+        if (status === 404)
+        {
+          return false;
+        }
+        let list = JSON.parse(this.myStorage.getItem('citiesList'));
+
+        if (list === null || list === undefined) {
+          list = [];
+        }
+
+        list.push(info);
+
+        this.myStorage.setItem('citiesList', JSON.stringify(list));
+        this.setState({
+          list,
+        });
+
+        return true;
+      })
+      .catch((e) => false
+      );
   };
 
   render() {

@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import Modal from 'react-modal';
-import AddCity from '../AddCity';
 import './styles.css';
 
 export default class Model extends Component {
@@ -13,20 +12,44 @@ export default class Model extends Component {
     this.modalIsOpen = modalIsOpen;
   }
 
+  componentWillMount() {
+    Modal.setAppElement('body');
+  }
+
+  ifItEnter = (event) => {
+    if(event.keyCode === 13){
+      this.close();
+    }
+  };
+
   handleModal = () => {
     this.modalIsOpen = !this.modalIsOpen;
     this.setState({ modalIsOpen: this.modalIsOpen });
   };
 
   close = () => {
-    this.props.add();
-    this.handleModal();
+    this.props.add()
+      .then(result => {
+        if(result){
+          this.handleModal();
+        }
+        else{
+          document.getElementById('City').value = 'Write correct data!';
+          document.getElementById('Code').value = 'Write correct data!';
+          document.getElementById('EngCity').value = 'Write correct data!';
+        }
+      })
   };
 
   render() {
     return (
       <div>
-        <AddCity openModal={this.handleModal} />
+        <span
+          className="glyphicon glyphicon-plus add-city"
+          onClick={this.handleModal}
+          role="button"
+          tabIndex={0}
+        />
         <Modal
           className="custom"
           isOpen={this.modalIsOpen}
@@ -45,7 +68,7 @@ export default class Model extends Component {
             </label>
             <br />
             <label>
-              Введите код страны, в которой он находится: <input type="text" id="Code" />
+              Введите код страны, в которой он находится: <input type="text" id="Code" onKeyDown={this.ifItEnter} />
             </label>
           </form>
           <button type="button" className="btn btn-primary" onClick={this.close}>Добавить</button>
