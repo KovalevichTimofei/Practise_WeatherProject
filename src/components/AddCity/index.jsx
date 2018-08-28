@@ -3,7 +3,12 @@ import './styles.css';
 
 function AddCity({ openModal }) {
   return (
-    <span onClick={openModal} className="glyphicon glyphicon-plus add-city" />
+    <span
+      className="glyphicon glyphicon-plus add-city"
+      onClick={openModal}
+      role="button"
+      tabIndex={0}
+    />
   );
 }
 

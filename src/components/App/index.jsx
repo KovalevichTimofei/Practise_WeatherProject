@@ -48,9 +48,9 @@ class App extends Component {
     }
 
     if (storHistoryWeather[key]) {
-      flag = storHistoryWeather[key][last].date.year === now.getFullYear() &&
-        storHistoryWeather[key][last].date.monthNumber === now.getMonth() &&
-        storHistoryWeather[key][last].date.day === now.getDate();
+      flag = storHistoryWeather[key][last].date.year === now.getFullYear()
+        && storHistoryWeather[key][last].date.monthNumber === now.getMonth()
+        && storHistoryWeather[key][last].date.day === now.getDate();
     } else {
       flag = false;
     }

@@ -1,12 +1,10 @@
-'use strict';
-
-import { createStore } from 'redux';
+//  import { createStore } from 'redux';
 import CurrentWeather from '../components/CurrentWeather/index';
 import additional from './CurrentWeather.test.json';
-import cityReducer from '../city.reducer';
+//  import cityReducer from '../city.reducer';
 
 describe('CurrentWeather', () => {
-  const store = createStore(cityReducer);
+  //  const store = createStore(cityReducer);
   const tasks = new CurrentWeather();
 
   test('AddZero should add zero, when number has length 1, and should not do it, if not', () => {

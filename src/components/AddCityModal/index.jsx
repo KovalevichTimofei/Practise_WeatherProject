@@ -4,17 +4,18 @@ import AddCity from '../AddCity';
 import './styles.css';
 
 export default class Model extends Component {
-
   constructor() {
     super();
     this.state = {
-      modalIsOpen: false
+      modalIsOpen: false,
     };
+    const { modalIsOpen } = this.state;
+    this.modalIsOpen = modalIsOpen;
   }
 
 
   handleModal() {
-    this.setState({modalIsOpen: !this.state.modalIsOpen});
+    this.setState({ modalIsOpen: !this.modalIsOpen });
   }
 
   close = () => {
@@ -25,29 +26,29 @@ export default class Model extends Component {
   render() {
     return (
       <div>
-        <AddCity openModal={this.handleModal.bind(this)}/>
+        <AddCity openModal={this.handleModal.bind(this)} />
         <Modal
-          className='custom'
-          isOpen={this.state.modalIsOpen}
+          className="custom"
+          isOpen={this.modalIsOpen}
           onRequestClose={this.handleModal.bind(this)}
           contentLabel="Example Modal"
         >
-          <button onClick={this.handleModal.bind(this)} className='close'>Закрыть</button>
-          <h2 ref={subtitle => this.subtitle = subtitle} className='title'>Расширение списка городов</h2>
-          <form class='form-horizontal'>
+          <button type="button" onClick={this.handleModal.bind(this)} className="close">Закрыть</button>
+          <h2 ref={(subtitle) => { this.subtitle = subtitle; }} className="title">Расширение списка городов</h2>
+          <form className="form-horizontal">
             <label>
-              Введите название города, который хотите добавить: <input type='text' id='City'/>
+              Введите название города, который хотите добавить: <input type="text" id="City" />
             </label>
-            <br/>
+            <br />
             <label>
-              Введите название этого города на английском: <input type='text' id='EngCity'/>
+              Введите название этого города на английском: <input type="text" id="EngCity" />
             </label>
-            <br/>
+            <br />
             <label>
-              Введите код страны, в которой он находится: <input type='text' id='Code'/>
+              Введите код страны, в которой он находится: <input type="text" id="Code" />
             </label>
           </form>
-          <button className='btn btn-primary' onClick={this.close}>Добавить</button>
+          <button type="button" className="btn btn-primary" onClick={this.close}>Добавить</button>
         </Modal>
       </div>
     );

@@ -1,6 +1,7 @@
 { 
   "extends": "airbnb",
   "rules": {
+  	"global fetch": true,
     "react/prop-types": "off",
     "react/jsx-one-expression-per-line": "off",
     "jsx-a11y/click-events-have-key-events": "off",

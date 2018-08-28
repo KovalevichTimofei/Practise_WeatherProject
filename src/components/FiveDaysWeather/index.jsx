@@ -7,7 +7,7 @@ class FiveDaysWeather extends Component {
   constructor() {
     super();
     this.myStorage = window.localStorage;
-    this.state = {weather: [], cityInfo: {} };
+    this.state = { weather: [], cityInfo: {} };
     this.state.weather.fill({
       date: {
         dayName: '',
@@ -68,6 +68,7 @@ class FiveDaysWeather extends Component {
       });
     }
   }
+
   parseInformation(weather, props) {
     const months = ['января', 'февраля', 'марта', 'апреля', 'мая', 'июня',
       'июля', 'августа', 'сентября', 'октября', 'ноября', 'декабря'];
@@ -115,7 +116,8 @@ class FiveDaysWeather extends Component {
 
   render() {
     const { weather, cityInfo } = this.state;
-    const days = weather.map((item, i) => <Day key={i} weather={item} />);
+    let index = 0;
+    const days = weather.map(item => <Day key={index++} weather={item} />);
 
     return (
       <div>

@@ -42,21 +42,12 @@ class CurrentWeather extends Component {
     this.cityID = 'Brest, by';
   }
 
-  prepareData(props) {
-    //  this.myStorage.removeItem('currentWeather');
-    this.cityID = `${props.activeCity.engCity}, ${props.activeCity.code}`;
-    let currentWeather = JSON.parse(this.myStorage.getItem('currentWeather'));
+  componentWillMount() {
+    this.prepareData(this.props);
+  }
 
-    currentWeather = currentWeather === null ? undefined : currentWeather[this.cityID];
-
-    if (this.shouldRequestServer(currentWeather)) {
-      const weather = this.getInformation(props);
-      weather.then((information) => {
-        this.parseInformation(information, props);
-      });
-    } else {
-      this.setState({ currentWeather, cityInfo: props.activeCity });
-    }
+  componentWillReceiveProps(nextProps) {
+    this.prepareData(nextProps);
   }
 
   getInformation(props) {
@@ -68,18 +59,25 @@ class CurrentWeather extends Component {
       });
   }
 
-  shouldRequestServer(currentWeather, cur){
-    let ifDataIsNotToday = true;
-    let ifDataIsNotActual = true;
-    const curDate = cur || new Date();
-
-    if (currentWeather !== undefined) {
-      ifDataIsNotToday = currentWeather.date.year < curDate.getFullYear() || currentWeather.date.monthNumber
-            < curDate.getMonth() || currentWeather.date.day < curDate.getDate();
-
-      ifDataIsNotActual = currentWeather.date.hour < curDate.getHours() && curDate.getHours() <= 15;
+  getWindDirection(degree) {
+    if (degree === undefined) {
+      return 'Неизвестно';
     }
-    return ifDataIsNotToday || ifDataIsNotActual;
+    const dir = d2d(degree);
+
+    const values = {
+      E: 'ост',
+      N: 'норд',
+      S: 'зюйд',
+      W: 'вест',
+    };
+    const result = dir.split('').map(item => values[item]);
+    result[0] = this.makeFirstLetterUpper(result[0]);
+    return result.join('-');
+  }
+
+  addZero(n) {
+    return n.toString().length === 1 ? `0${n}` : n.toString();
   }
 
   parseInformation(weather, { onDataLoaded, activeCity }) {
@@ -122,37 +120,39 @@ class CurrentWeather extends Component {
     onDataLoaded(currentWeather);
   }
 
-  addZero(n) {
-    return n.toString().length === 1 ? `0${n}` : n.toString();
+  shouldRequestServer(currentWeather, cur) {
+    let ifDataIsNotToday = true;
+    let ifDataIsNotActual = true;
+    const curDate = cur || new Date();
+
+    if (currentWeather !== undefined) {
+      ifDataIsNotToday = currentWeather.date.year < curDate.getFullYear() || currentWeather.date.monthNumber
+        < curDate.getMonth() || currentWeather.date.day < curDate.getDate();
+
+      ifDataIsNotActual = currentWeather.date.hour < curDate.getHours() && curDate.getHours() <= 15;
+    }
+    return ifDataIsNotToday || ifDataIsNotActual;
   }
 
-  getWindDirection(degree) {
-    if (degree === undefined) {
-      return 'Неизвестно';
-    }
-    const dir = d2d(degree);
+  prepareData(props) {
+    //  this.myStorage.removeItem('currentWeather');
+    this.cityID = `${props.activeCity.engCity}, ${props.activeCity.code}`;
+    let currentWeather = JSON.parse(this.myStorage.getItem('currentWeather'));
 
-    const values = {
-      E: 'ост',
-      N: 'норд',
-      S: 'зюйд',
-      W: 'вест',
-    };
-    const result = dir.split('').map(item => values[item]);
-    result[0] = this.makeFirstLetterUpper(result[0]);
-    return result.join('-');
+    currentWeather = currentWeather === null ? undefined : currentWeather[this.cityID];
+
+    if (this.shouldRequestServer(currentWeather)) {
+      const weather = this.getInformation(props);
+      weather.then((information) => {
+        this.parseInformation(information, props);
+      });
+    } else {
+      this.setState({ currentWeather, cityInfo: props.activeCity });
+    }
   }
 
   makeFirstLetterUpper(word) {
     return word === undefined || word === null ? undefined : `${word.charAt(0).toUpperCase()}${word.slice(1)}`;
-  }
-
-  componentWillMount() {
-    this.prepareData(this.props);
-  }
-
-  componentWillReceiveProps(nextProps) {
-    this.prepareData(nextProps);
   }
 
   render() {

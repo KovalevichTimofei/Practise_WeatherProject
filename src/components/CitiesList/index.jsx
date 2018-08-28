@@ -13,14 +13,15 @@ class CitiesList extends Component {
     const { list } = this.props;
     const newList = list.filter(
       item => this.list.every(
-        val => !(val.city === item.city && val.code === item.code)
-      )
+        val => !(val.city === item.city && val.code === item.code),
+      ),
     );
     this.list = this.list.concat(newList);
   }
 
   changeCity(city) {
-    this.props.dispatch(change.changeCity(city));
+    const { dispatch } = this.props;
+    dispatch(change.changeCity(city));
   }
 
   render() {
@@ -28,18 +29,20 @@ class CitiesList extends Component {
     const newList = list.filter(
       item => this.list.every(
         val => !(val.city === item.city && val.code === item.code
-        )
-      )
+        ),
+      ),
     );
 
     this.list = this.list.concat(newList);
     this.list = this.list.filter(item => item.city !== '');
 
-    const cities = this.list.map((city, i) => {
+    let index = 0;
+
+    const cities = this.list.map((city) => {
       if (`${city.engCity}, ${city.code}` === `${activeCity.engCity}, ${activeCity.code}`) {
-        return <li key={i}><City isActive="active" cityInfo={city} /></li>;
+        return <li key={index++}><City isActive="active" cityInfo={city} /></li>;
       }
-      return <li key={i} onClick={this.changeCity.bind(this, city)}><City isActive="" cityInfo={city} /></li>;
+      return <li key={index++} onClick={this.changeCity.bind(this, city)}><City isActive="" cityInfo={city} /></li>;
     });
 
     return (
