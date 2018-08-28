@@ -42,7 +42,7 @@ class CurrentWeather extends Component {
     this.cityID = 'Brest, by';
   }
 
-  componentWillMount() {
+  componentDidMount() {
     this.prepareData(this.props);
   }
 

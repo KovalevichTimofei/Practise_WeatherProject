@@ -28,8 +28,7 @@ class Graph extends Component {
     this.type = 'Line';
   }
 
-
-  componentWillMount() {
+  componentDidMount() {
     this.prepareData(this.props);
   }
 

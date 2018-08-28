@@ -1,9 +1,6 @@
 .add-city{
     border: 1px solid lightgray;
-    padding-top: 4%;
-    padding-left: 48%;
-    padding-right: 48%;
-    padding-bottom: 4%;
+    padding: 4% 48% 4% 48%;
     background-color: #e5e5e5;
 }
 

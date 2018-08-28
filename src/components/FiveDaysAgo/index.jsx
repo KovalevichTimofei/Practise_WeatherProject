@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import './styles.css';
 
 export default class FiveDaysAgo extends Component {
   constructor() {
@@ -16,7 +15,7 @@ export default class FiveDaysAgo extends Component {
     };
   }
 
-  componentWillMount() {
+  componentDidMount() {
     this.prepareData(this.props);
   }
 

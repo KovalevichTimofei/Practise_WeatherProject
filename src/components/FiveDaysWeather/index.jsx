@@ -24,7 +24,7 @@ class FiveDaysWeather extends Component {
     }, 0, 5);
   }
 
-  componentWillMount() {
+  componentDidMount() {
     this.prepareData(this.props);
   }
 
