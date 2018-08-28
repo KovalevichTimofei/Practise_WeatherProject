@@ -67,7 +67,7 @@ class Cities extends Component {
   render() {
     const { list } = this.state;
     return (
-      <div className="col-xs-3 well">
+      <div className="col-lg-3 col-md-3 col-sm-5 col-xs-8 well">
         <CitiesList list={list} />
         <AddCityModal add={this.add} />
       </div>
