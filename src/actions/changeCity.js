@@ -9,4 +9,4 @@ function changeCity(city) {
 
 export default {
   CHANGE, changeCity,
-}
+};

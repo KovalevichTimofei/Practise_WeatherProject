@@ -1,17 +1,10 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import Modal from 'react-modal';
 import './styles.css';
+import switchOpenClose from '../../actions/switchOpenClose';
 
-export default class Model extends Component {
-  constructor() {
-    super();
-    this.state = {
-      modalIsOpen: false,
-    };
-    const { modalIsOpen } = this.state;
-    this.modalIsOpen = modalIsOpen;
-  }
-
+class Model extends Component {
   componentWillMount() {
     Modal.setAppElement('body');
   }
@@ -23,8 +16,8 @@ export default class Model extends Component {
   };
 
   handleModal = () => {
-    this.modalIsOpen = !this.modalIsOpen;
-    this.setState({ modalIsOpen: this.modalIsOpen });
+    const { dispatch } = this.props;
+    dispatch(switchOpenClose.switchState(this.props.modalIsOpen));
   };
 
   close = () => {
@@ -52,7 +45,7 @@ export default class Model extends Component {
         />
         <Modal
           className="custom"
-          isOpen={this.modalIsOpen}
+          isOpen={this.props.modalIsOpen}
           onRequestClose={this.handleModal}
           contentLabel="Example Modal"
         >
@@ -77,3 +70,10 @@ export default class Model extends Component {
     );
   }
 }
+
+const mapStateToProps = function ({ addCityModalState }) {
+  console.log(addCityModalState);
+  return { modalIsOpen: addCityModalState.modalIsOpen };
+};
+
+export default connect(mapStateToProps)(Model);

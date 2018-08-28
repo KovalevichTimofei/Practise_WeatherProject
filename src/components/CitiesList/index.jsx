@@ -56,8 +56,8 @@ class CitiesList extends Component {
   }
 }
 
-const mapStateToProps = function (store) {
-  return { activeCity: store.activeCity };
+const mapStateToProps = function ({ activeCityState }) {
+  return { activeCity: activeCityState.activeCity };
 };
 
 export default connect(mapStateToProps)(CitiesList);

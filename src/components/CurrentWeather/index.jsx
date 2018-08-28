@@ -264,8 +264,8 @@ class CurrentWeather extends Component {
   }
 }
 
-const mapStateToProps = function getNewActiveCity(store) {
-  return { activeCity: store.activeCity };
+const mapStateToProps = function ({ activeCityState }) {
+  return { activeCity: activeCityState.activeCity };
 };
 
 export default connect(mapStateToProps)(CurrentWeather);

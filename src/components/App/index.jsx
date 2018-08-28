@@ -7,7 +7,6 @@ import FiveDaysWeather from '../FiveDaysWeather';
 import Cities from '../Cities';
 import Footer from '../Footer';
 
-
 class App extends Component {
   constructor() {
     super();
@@ -147,8 +146,8 @@ class App extends Component {
   }
 }
 
-const mapStateToProps = function (store) {
-  return { activeCity: store.activeCity };
+const mapStateToProps = function ({ activeCityState }) {
+  return { activeCity: activeCityState.activeCity };
 };
 
 export default connect(mapStateToProps)(App);
