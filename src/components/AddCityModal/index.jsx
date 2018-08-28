@@ -13,27 +13,27 @@ export default class Model extends Component {
     this.modalIsOpen = modalIsOpen;
   }
 
-
-  handleModal() {
-    this.setState({ modalIsOpen: !this.modalIsOpen });
-  }
+  handleModal = () => {
+    this.modalIsOpen = !this.modalIsOpen;
+    this.setState({ modalIsOpen: this.modalIsOpen });
+  };
 
   close = () => {
     this.props.add();
-    this.closeModal();
+    this.handleModal();
   };
 
   render() {
     return (
       <div>
-        <AddCity openModal={this.handleModal.bind(this)} />
+        <AddCity openModal={this.handleModal} />
         <Modal
           className="custom"
           isOpen={this.modalIsOpen}
-          onRequestClose={this.handleModal.bind(this)}
+          onRequestClose={this.handleModal}
           contentLabel="Example Modal"
         >
-          <button type="button" onClick={this.handleModal.bind(this)} className="close">Закрыть</button>
+          <button type="button" onClick={this.handleModal} className="close">Закрыть</button>
           <h2 ref={(subtitle) => { this.subtitle = subtitle; }} className="title">Расширение списка городов</h2>
           <form className="form-horizontal">
             <label>

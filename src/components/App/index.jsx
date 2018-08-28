@@ -115,15 +115,15 @@ class App extends Component {
     window.localStorage.setItem('HistoryWeather', JSON.stringify(storHistoryWeather));
   }
 
-  onCurrentWeatherLoaded(weather) {
+  onCurrentWeatherLoaded = (weather) => {
     this.saveDailyData(weather, this.cityID, 'currentWeather');
     this.saveCurrentHistory(weather, this.cityID);
-  }
+  };
 
-  onForecastLoaded(weather) {
+  onForecastLoaded = (weather) => {
     this.saveDailyData(weather, this.cityID, 'weather');
     this.saveForecastHistory(weather, this.cityID);
-  }
+  };
 
   render() {
     const { activeCity } = this.props;
@@ -133,10 +133,10 @@ class App extends Component {
         <div className="container">
           <Header />
           <section className="row" id="main">
-            <CurrentWeather onDataLoaded={this.onCurrentWeatherLoaded.bind(this)} />
+            <CurrentWeather onDataLoaded={this.onCurrentWeatherLoaded} />
             <div className="col-lg-6 col-md-6 col-sm-6">
               <Graph weatherHistory={JSON.parse(window.localStorage.getItem('currentHistoryWeather')) || {}} />
-              <FiveDaysWeather onDataLoaded={this.onForecastLoaded.bind(this)} />
+              <FiveDaysWeather onDataLoaded={this.onForecastLoaded} />
             </div>
             <Cities />
           </section>

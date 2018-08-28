@@ -19,7 +19,7 @@ class Cities extends Component {
     });
   }
 
-  add() {
+  add = () => {
     let list = JSON.parse(this.myStorage.getItem('citiesList'));
 
     if (list === null || list === undefined) {
@@ -36,14 +36,14 @@ class Cities extends Component {
     this.setState({
       list,
     });
-  }
+  };
 
   render() {
     const { list } = this.state;
     return (
       <div className="col-xs-3 well">
         <CitiesList list={list} />
-        <AddCityModal add={this.add.bind(this)} />
+        <AddCityModal add={this.add} />
       </div>
     );
   }
