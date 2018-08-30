@@ -1,1 +1,1 @@
-require('./bootstrap.jsx');
+require('./main.jsx');

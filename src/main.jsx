@@ -5,12 +5,18 @@ import { createStore, combineReducers } from 'redux';
 import { Provider } from 'react-redux';
 import App from './components/App';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import cityReducer from './city.reducer';
-import addCityModalReducer from './addCityModal.reducer';
+import cityReducer from './reducers/city.reducer';
+import addCityModalReducer from './reducers/addCityModal.reducer';
+import currentWeatherReducer from './reducers/CurrentWeather.reducer';
+import fiveDaysAgoReducer from './reducers/FiveDaysAgo.reducer';
+import fiveDaysWeatherReducer from './reducers/FiveDaysWeather.reducer';
 
 const reducers = combineReducers({
   activeCityState: cityReducer,
   addCityModalState: addCityModalReducer,
+  currentWeatherState: currentWeatherReducer,
+  fiveDaysAgoState: fiveDaysAgoReducer,
+  fiveDaysWeatherState: fiveDaysWeatherReducer,
 });
 
 const store = createStore(reducers);

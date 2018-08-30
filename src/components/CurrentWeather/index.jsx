@@ -3,41 +3,11 @@ import { connect } from 'react-redux';
 import './styles.css';
 import d2d from 'degrees-to-direction';
 import FiveDaysAgo from '../FiveDaysAgo';
+import newCurrentWeather from '../../actions/newCurrentWeather';
 
 class CurrentWeather extends Component {
   constructor() {
     super();
-
-    this.state = {
-      currentWeather: {
-        temperature: '  ',
-        date: {
-          year: '    ',
-          day: '  ',
-          month: '  ',
-          hour: '',
-        },
-        wind: {
-          speed: ' ',
-          gust: ' ',
-          direction: ' ',
-        },
-        cloudness: '  ',
-        pressure: '    ',
-        humidity: '  ',
-        sun: {
-          sunrise: ' ',
-          sunset: ' ',
-        },
-        icon: '',
-      },
-      cityInfo: {
-        city: '',
-        engCity: '',
-        code: '',
-      },
-    };
-
     this.myStorage = window.localStorage;
     this.cityID = 'Brest, by';
   }
@@ -47,7 +17,12 @@ class CurrentWeather extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    this.prepareData(nextProps);
+    const { currentWeather, activeCity } = this.props;
+    this.cityID = `${activeCity.engCity}, ${activeCity.code}`;
+    if (JSON.stringify(currentWeather) !== JSON.stringify(nextProps.currentWeather)
+    || JSON.stringify(activeCity) !== JSON.stringify(nextProps.activeCity)) {
+      this.prepareData(nextProps);
+    }
   }
 
   getInformation(props) {
@@ -80,7 +55,7 @@ class CurrentWeather extends Component {
     return n.toString().length === 1 ? `0${n}` : n.toString();
   }
 
-  parseInformation(weather, { onDataLoaded, activeCity }) {
+  parseInformation(weather, { onDataLoaded, dispatch }) {
     const months = ['января', 'февраля', 'марта', 'апреля', 'мая', 'июня',
       'июля', 'августа', 'сентября', 'октября', 'ноября', 'декабря'];
 
@@ -111,12 +86,7 @@ class CurrentWeather extends Component {
       },
       icon: weather.weather[0].icon,
     };
-
-    this.setState({
-      currentWeather,
-      cityInfo: activeCity,
-    });
-
+    dispatch(newCurrentWeather.changeCurrentWeather({ currentWeather }));
     onDataLoaded(currentWeather);
   }
 
@@ -136,7 +106,7 @@ class CurrentWeather extends Component {
 
   prepareData(props) {
     //  this.myStorage.removeItem('currentWeather');
-    this.cityID = `${props.activeCity.engCity}, ${props.activeCity.code}`;
+    const { dispatch, activeCity } = props;
     let currentWeather = JSON.parse(this.myStorage.getItem('currentWeather'));
 
     currentWeather = currentWeather === null ? undefined : currentWeather[this.cityID];
@@ -147,7 +117,7 @@ class CurrentWeather extends Component {
         this.parseInformation(information, props);
       });
     } else {
-      this.setState({ currentWeather, cityInfo: props.activeCity });
+      dispatch(newCurrentWeather.changeCurrentWeather({ currentWeather }));
     }
   }
 
@@ -156,12 +126,14 @@ class CurrentWeather extends Component {
   }
 
   render() {
-    const { currentWeather, cityInfo } = this.state;
-    const imgUrl = `https://openweathermap.org/img/w/${currentWeather.icon}.png`;
+    const { activeCity, currentWeather } = this.props;
+    const imgUrl = +currentWeather.icon === +''
+      ? 'https://openweathermap.org/img/w/01d.png'
+      : `https://openweathermap.org/img/w/${currentWeather.icon}.png`;
     return (
       <div className="col-lg-3 col-md-3 col-sm-3">
         <strong className="cur-weather-text">
-            Погода в г. {cityInfo.city}
+            Погода в г. {activeCity.city}
         </strong>
         <img alt="иконка" src={imgUrl} />
         <strong className="cur-weather-text">
@@ -264,8 +236,12 @@ class CurrentWeather extends Component {
   }
 }
 
-const mapStateToProps = function ({ activeCityState }) {
-  return { activeCity: activeCityState.activeCity };
+const mapStateToProps = function ({ activeCityState, currentWeatherState }) {
+  return {
+    activeCity: activeCityState.activeCity,
+    currentWeather: currentWeatherState.currentWeather,
+    cityInfo: currentWeatherState.cityInfo,
+  };
 };
 
 export default connect(mapStateToProps)(CurrentWeather);

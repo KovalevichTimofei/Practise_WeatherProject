@@ -72,7 +72,6 @@ class Model extends Component {
 }
 
 const mapStateToProps = function ({ addCityModalState }) {
-  console.log(addCityModalState);
   return { modalIsOpen: addCityModalState.modalIsOpen };
 };
 

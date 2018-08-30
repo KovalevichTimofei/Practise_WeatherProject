@@ -1,18 +1,11 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import newFiveDaysAgoForecast from '../../actions/newFiveDaysAgoForecast';
 
-export default class FiveDaysAgo extends Component {
+class FiveDaysAgo extends Component {
   constructor() {
     super();
     this.myStorage = window.localStorage;
-    this.state = {
-      weather: {
-        temperature: '',
-        wind: '',
-        pressure: '',
-        cloudness: '',
-        agoNumber: '',
-      },
-    };
   }
 
   componentDidMount() {
@@ -20,10 +13,15 @@ export default class FiveDaysAgo extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    this.prepareData(nextProps);
+    const { weather, cityID } = this.props;
+    if (JSON.stringify(weather) !== JSON.stringify(nextProps.weather)
+        || cityID !== nextProps.cityID) {
+      this.prepareData(nextProps);
+    }
   }
 
   prepareData(props) {
+    const { dispatch, cityID } = props;
     let i;
     let specific;
 
@@ -34,7 +32,7 @@ export default class FiveDaysAgo extends Component {
       let ago4;
 
       if (this.myStorage.getItem('HistoryWeather')) {
-        ago4 = JSON.parse(this.myStorage.getItem('HistoryWeather'))[props.cityID];
+        ago4 = JSON.parse(this.myStorage.getItem('HistoryWeather'))[cityID];
       } else {
         this.myStorage.setItem('HistoryWeather', JSON.stringify({}));
         ago4 = [];
@@ -56,7 +54,7 @@ export default class FiveDaysAgo extends Component {
     }
 
     if (i !== 0) {
-      this.setState({
+      dispatch(newFiveDaysAgoForecast.changeFiveDaysAgoForecast({
         weather: {
           temperature: specific[0][0].temperature,
           wind: specific[0][0].windSpeed,
@@ -64,9 +62,9 @@ export default class FiveDaysAgo extends Component {
           cloudness: specific[0][0].cloudness,
           agoNumber: i,
         },
-      });
+      }));
     } else {
-      this.setState({
+      dispatch(newFiveDaysAgoForecast.changeFiveDaysAgoForecast({
         weather: {
           temperature: 'Ещё нет в истории погоды',
           wind: 'Ещё нет в истории погоды',
@@ -74,16 +72,15 @@ export default class FiveDaysAgo extends Component {
           cloudness: 'Ещё нет в истории погоды',
           agoNumber: 4,
         },
-      });
+      }));
     }
   }
 
   render() {
-    const { weather } = this.state;
+    const { weather } = this.props;
     return (
       <div>
-        <strong className="cur-weather-text"> {weather.agoNumber}
-          дня назад на сегодня обещали:
+        <strong className="cur-weather-text"> {weather.agoNumber} дня назад на сегодня обещали:
         </strong>
         <strong className="cur-weather-text"> {weather.temperature}
           °C
@@ -101,3 +98,11 @@ export default class FiveDaysAgo extends Component {
       </div>);
   }
 }
+
+const mapStateToProps = function ({ fiveDaysAgoState }) {
+  return {
+    weather: fiveDaysAgoState.weather,
+  };
+};
+
+export default connect(mapStateToProps)(FiveDaysAgo);

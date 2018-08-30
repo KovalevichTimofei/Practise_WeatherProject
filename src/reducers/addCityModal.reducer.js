@@ -1,4 +1,4 @@
-import switchOpenClose from './actions/switchOpenClose';
+import switchOpenClose from '../actions/switchOpenClose';
 
 const { SWITCH } = switchOpenClose;
 
@@ -9,9 +9,9 @@ const initialAddCityModalState = {
 const switchOpenCloseReducer = function (state = initialAddCityModalState, action) {
   switch (action.type) {
     case SWITCH: {
-      return {
+      return Object.assign({}, state, {
         modalIsOpen: !action.modalIsOpen,
-      };
+      });
     }
     default: {
       return state;

@@ -1,27 +1,12 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Day from '../Day';
+import changeFiveDaysForecast from '../../actions/newFiveDaysForecast';
 
 class FiveDaysWeather extends Component {
-
   constructor() {
     super();
     this.myStorage = window.localStorage;
-    this.state = { weather: [], cityInfo: {} };
-    this.state.weather.fill({
-      date: {
-        dayName: '',
-        dayNumber: '',
-        monthNumber: '',
-        monthName: '',
-        year: '',
-      },
-      temperature: '',
-      windSpeed: '',
-      pressure: '',
-      cloudness: '',
-      icon: 'https://openweathermap.org/img/w/01d.png'
-    }, 0, 5);
   }
 
   componentDidMount() {
@@ -29,7 +14,11 @@ class FiveDaysWeather extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    this.prepareData(nextProps);
+    const { weather, activeCity } = this.props;
+    if (JSON.stringify(weather) !== JSON.stringify(nextProps.weather)
+      || JSON.stringify(activeCity) !== JSON.stringify(nextProps.activeCity)) {
+      this.prepareData(nextProps);
+    }
   }
 
   getInformation(props) {
@@ -62,10 +51,7 @@ class FiveDaysWeather extends Component {
         this.parseInformation(information, props);
       });
     } else {
-      this.setState({
-        weather: storWeather,
-        cityInfo: props.activeCity,
-      });
+      props.dispatch(changeFiveDaysForecast.changeFiveDayWeather(storWeather));
     }
   }
 
@@ -101,12 +87,9 @@ class FiveDaysWeather extends Component {
         icon: `https://openweathermap.org/img/w/${item.weather[0].icon}.png`,
       };
     });
-    this.setState({
-      weather: resultWeather,
-      cityInfo: props.activeCity,
-    });
+    props.dispatch(changeFiveDaysForecast.changeFiveDayWeather(resultWeather));
 
-    const { onDataLoaded } = this.props;
+    const { onDataLoaded } = props;
     onDataLoaded(resultWeather);
   }
 
@@ -115,14 +98,14 @@ class FiveDaysWeather extends Component {
   }
 
   render() {
-    const { weather, cityInfo } = this.state;
+    const { weather, activeCity } = this.props;
     let index = 0;
     const days = weather.map(item => <Day key={index++} weather={item} />);
 
     return (
       <div>
         <strong>
-          Прогноз погоды, г. {cityInfo.city}
+          Прогноз погоды, г. {activeCity.city}
         </strong>
         {days}
         <div className="row">
@@ -138,8 +121,11 @@ class FiveDaysWeather extends Component {
   }
 }
 
-const mapStateToProps = function ({ activeCityState }) {
-  return { activeCity: activeCityState.activeCity };
+const mapStateToProps = function ({ activeCityState, fiveDaysWeatherState }) {
+  return {
+    activeCity: activeCityState.activeCity,
+    weather: fiveDaysWeatherState.weather,
+  };
 };
 
 export default connect(mapStateToProps)(FiveDaysWeather);

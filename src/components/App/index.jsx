@@ -8,19 +8,6 @@ import Cities from '../Cities';
 import Footer from '../Footer';
 
 class App extends Component {
-  constructor() {
-    super();
-    this.state = {
-      activeCity: {
-        city: 'Брест',
-        engCity: 'Brest',
-        code: 'by',
-      },
-    };
-    const { activeCity } = this.state;
-    this.cityID = `${activeCity.engCity}, ${activeCity.code}`;
-  }
-
   saveDailyData(currentWeather, key, objectName) {
     let storWeather = JSON.parse(window.localStorage.getItem(objectName));
     if (storWeather === null) {
@@ -55,7 +42,6 @@ class App extends Component {
     }
 
     if (+currentWeather.date.hour <= 15 || (!flag && now.getHours() > 15)) {
-      //  storHistoryWeather = JSON.parse(window.localStorage.getItem('currentHistoryWeather'));
       if (storHistoryWeather === null) {
         storHistoryWeather = {};
       }
@@ -115,18 +101,20 @@ class App extends Component {
   }
 
   onCurrentWeatherLoaded = (weather) => {
-    this.saveDailyData(weather, this.cityID, 'currentWeather');
+    const { activeCity } = this.props;
+    const cityID = `${activeCity.engCity}, ${activeCity.code}`;
+    this.saveDailyData(weather, cityID, 'currentWeather');
     this.saveCurrentHistory(weather, this.cityID);
   };
 
   onForecastLoaded = (weather) => {
-    this.saveDailyData(weather, this.cityID, 'weather');
+    const { activeCity } = this.props;
+    const cityID = `${activeCity.engCity}, ${activeCity.code}`;
+    this.saveDailyData(weather, cityID, 'weather');
     this.saveForecastHistory(weather, this.cityID);
   };
 
   render() {
-    const { activeCity } = this.props;
-    this.cityID = `${activeCity.engCity}, ${activeCity.code}`;
     return (
       <div>
         <div className="container">

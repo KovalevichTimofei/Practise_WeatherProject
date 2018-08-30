@@ -1,4 +1,4 @@
-import changeCity from './actions/changeCity';
+import changeCity from '../actions/changeCity';
 
 const { CHANGE } = changeCity;
 
@@ -13,9 +13,9 @@ const initialActiveCityState = {
 const activeCityReducer = function (state = initialActiveCityState, action) {
   switch (action.type) {
     case CHANGE: {
-      return {
+      return Object.assign({}, state, {
         activeCity: action.activeCity,
-      };
+      });
     }
     default: {
       return state;
