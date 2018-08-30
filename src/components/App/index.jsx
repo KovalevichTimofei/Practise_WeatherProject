@@ -1,11 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import Header from '../Header';
 import CurrentWeather from '../CurrentWeather';
 import Graph from '../Graph';
 import FiveDaysWeather from '../FiveDaysWeather';
 import Cities from '../Cities';
-import Footer from '../Footer';
 
 class App extends Component {
   saveDailyData(currentWeather, key, objectName) {
@@ -118,7 +116,9 @@ class App extends Component {
     return (
       <div>
         <div className="container">
-          <Header />
+          <header>
+            <h1>Погода и прогноз</h1>
+          </header>
           <section className="row" id="main">
             <CurrentWeather onDataLoaded={this.onCurrentWeatherLoaded} />
             <div className="col-lg-6 col-md-6 col-sm-6">
@@ -128,7 +128,9 @@ class App extends Component {
             <Cities />
           </section>
         </div>
-        <Footer />
+        <footer>
+          © 2018 TimofeiWeather ® All rights reserved.
+        </footer>
       </div>
     );
   }
