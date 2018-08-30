@@ -10,31 +10,32 @@ class Model extends Component {
   }
 
   ifItEnter = (event) => {
-    if(event.keyCode === 13){
+    if (event.keyCode === 13){
       this.close();
     }
   };
 
   handleModal = () => {
-    const { dispatch } = this.props;
-    dispatch(switchOpenClose.switchState(this.props.modalIsOpen));
+    const { dispatch, modalIsOpen } = this.props;
+    dispatch(switchOpenClose.switchState(modalIsOpen));
   };
 
   close = () => {
-    this.props.add()
-      .then(result => {
-        if(result){
+    const { add } = this.props;
+    add()
+      .then((result) => {
+        if (result) {
           this.handleModal();
-        }
-        else{
+        } else {
           document.getElementById('City').value = 'Write correct data!';
           document.getElementById('Code').value = 'Write correct data!';
           document.getElementById('EngCity').value = 'Write correct data!';
         }
-      })
+      });
   };
 
   render() {
+    const { modalIsOpen } = this.props;
     return (
       <div>
         <span
@@ -45,7 +46,7 @@ class Model extends Component {
         />
         <Modal
           className="custom"
-          isOpen={this.props.modalIsOpen}
+          isOpen={modalIsOpen}
           onRequestClose={this.handleModal}
           contentLabel="Example Modal"
         >

@@ -10,14 +10,6 @@ class Cities extends Component {
     this.myStorage = window.localStorage;
   }
 
-  getInformation({ engCity, code  }) {
-    return fetch(`https://api.openweathermap.org/data/2.5/weather?q=${engCity},${code}&type=like&APPID=f40fe3edc5d5eccab2a08d022a005dea&lang=ru`)
-      .then(response => response.status)
-      .catch((e) => {
-        alert(e);
-      });
-  }
-
   componentWillMount() {
     //  this.myStorage.removeItem('citiesList');
     console.log(this.props);
@@ -29,6 +21,14 @@ class Cities extends Component {
     dispatch(setList.setList(list));
   }
 
+  getInformation({ engCity, code  }) {
+    return fetch(`https://api.openweathermap.org/data/2.5/weather?q=${engCity},${code}&type=like&APPID=f40fe3edc5d5eccab2a08d022a005dea&lang=ru`)
+      .then(response => response.status)
+      .catch((e) => {
+        alert(e);
+      });
+  }
+
   add = () => {
     const info = {
       city: document.getElementById('City').value,
@@ -36,15 +36,13 @@ class Cities extends Component {
       engCity: document.getElementById('EngCity').value,
     };
 
-    const { engCity, code  } = info;
+    const { engCity, code } = info;
     const { dispatch } = this.props;
 
     return fetch(`https://api.openweathermap.org/data/2.5/weather?q=${engCity},${code}&type=like&APPID=f40fe3edc5d5eccab2a08d022a005dea&lang=ru`)
       .then(response => response.status)
-      .then(status =>
-      {
-        if (status === 404)
-        {
+      .then((status) => {
+        if (status === 404) {
           return false;
         }
         let list = JSON.parse(this.myStorage.getItem('citiesList'));
@@ -60,8 +58,7 @@ class Cities extends Component {
 
         return true;
       })
-      .catch((e) => false
-      );
+      .catch(e => false);
   };
 
   render() {

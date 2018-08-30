@@ -106,7 +106,7 @@ class CurrentWeather extends Component {
 
   prepareData(props) {
     //  this.myStorage.removeItem('currentWeather');
-    const { dispatch, activeCity } = props;
+    const { dispatch } = props;
     let currentWeather = JSON.parse(this.myStorage.getItem('currentWeather'));
 
     currentWeather = currentWeather === null ? undefined : currentWeather[this.cityID];
