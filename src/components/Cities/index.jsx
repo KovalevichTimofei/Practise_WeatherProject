@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import CitiesList from '../CitiesList';
 import AddCityModal from '../AddCityModal';
+import setList from '../../actions/setCitiesList';
 
 class Cities extends Component {
   constructor() {
@@ -18,17 +20,16 @@ class Cities extends Component {
 
   componentWillMount() {
     //  this.myStorage.removeItem('citiesList');
+    console.log(this.props);
+    const { dispatch } = this.props;
     let list = JSON.parse(this.myStorage.getItem('citiesList'));
     if (list === null) {
       list = [];
     }
-    this.setState({
-      list,
-    });
+    dispatch(setList.setList(list));
   }
 
   add = () => {
-
     const info = {
       city: document.getElementById('City').value,
       code: document.getElementById('Code').value,
@@ -36,6 +37,7 @@ class Cities extends Component {
     };
 
     const { engCity, code  } = info;
+    const { dispatch } = this.props;
 
     return fetch(`https://api.openweathermap.org/data/2.5/weather?q=${engCity},${code}&type=like&APPID=f40fe3edc5d5eccab2a08d022a005dea&lang=ru`)
       .then(response => response.status)
@@ -54,9 +56,7 @@ class Cities extends Component {
         list.push(info);
 
         this.myStorage.setItem('citiesList', JSON.stringify(list));
-        this.setState({
-          list,
-        });
+        dispatch(setList.setList(list));
 
         return true;
       })
@@ -65,7 +65,7 @@ class Cities extends Component {
   };
 
   render() {
-    const { list } = this.state;
+    const { list } = this.props;
     return (
       <div className="col-lg-3 col-md-3 col-sm-3 col-xs-8 well">
         <CitiesList list={list} />
@@ -75,4 +75,8 @@ class Cities extends Component {
   }
 }
 
-export default Cities;
+const mapStateToProps = function ({ setCitiesListState }) {
+  return { list: setCitiesListState.list };
+};
+
+export default connect(mapStateToProps)(Cities);

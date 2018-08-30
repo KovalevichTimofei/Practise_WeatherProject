@@ -10,6 +10,7 @@ import addCityModalReducer from './reducers/addCityModal.reducer';
 import currentWeatherReducer from './reducers/CurrentWeather.reducer';
 import fiveDaysAgoReducer from './reducers/FiveDaysAgo.reducer';
 import fiveDaysWeatherReducer from './reducers/FiveDaysWeather.reducer';
+import setCitiesListReducer from './reducers/Cities.reducer';
 
 const reducers = combineReducers({
   activeCityState: cityReducer,
@@ -17,6 +18,7 @@ const reducers = combineReducers({
   currentWeatherState: currentWeatherReducer,
   fiveDaysAgoState: fiveDaysAgoReducer,
   fiveDaysWeatherState: fiveDaysWeatherReducer,
+  setCitiesListState: setCitiesListReducer,
 });
 
 const store = createStore(reducers);
