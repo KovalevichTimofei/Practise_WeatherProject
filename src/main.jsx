@@ -3,6 +3,9 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import { createStore, combineReducers } from 'redux';
 import { Provider } from 'react-redux';
+import { Router, Route } from 'react-router';
+import { syncHistoryWithStore, routerReducer } from 'react-router-redux';
+import createHistory from 'history/createBrowserHistory';
 import App from './components/App';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import cityReducer from './reducers/city.reducer';
@@ -19,12 +22,17 @@ const reducers = combineReducers({
   fiveDaysAgoState: fiveDaysAgoReducer,
   fiveDaysWeatherState: fiveDaysWeatherReducer,
   setCitiesListState: setCitiesListReducer,
+  routing: routerReducer,
 });
 
 const store = createStore(reducers);
+const browserHistory = createHistory();
+const history = syncHistoryWithStore(browserHistory, store);
 
 ReactDOM.render(
   <Provider store={store}>
-    <App />
+    <Router history={history}>
+      <Route path="/" component={App} />
+    </Router>
   </Provider>, document.getElementById('root'),
 );

@@ -12,7 +12,6 @@ class Cities extends Component {
 
   componentWillMount() {
     //  this.myStorage.removeItem('citiesList');
-    console.log(this.props);
     const { dispatch } = this.props;
     let list = JSON.parse(this.myStorage.getItem('citiesList'));
     if (list === null) {

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import City from '../City';
 import change from '../../actions/changeCity';
@@ -39,10 +40,23 @@ class CitiesList extends Component {
     let index = 0;
 
     const cities = this.list.map((city) => {
+      const path = '/cities/' + city.engCity;
       if (`${city.engCity}, ${city.code}` === `${activeCity.engCity}, ${activeCity.code}`) {
-        return <li key={index++}><City isActive="active" cityInfo={city} /></li>;
+        return (
+          <li key={index++}>
+            <Link to={path} className="active">
+              <City cityInfo={city} />
+            </Link>
+          </li>
+        );
       }
-      return <li key={index++} onClick={this.changeCity.bind(this, city)}><City isActive="" cityInfo={city} /></li>;
+      return (
+        <li key={index++} onClick={this.changeCity.bind(this, city)}>
+          <Link to={path} className="">
+            <City cityInfo={city} />
+          </Link>
+        </li>
+      );
     });
 
     return (

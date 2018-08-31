@@ -1,9 +1,9 @@
 import React from 'react';
 import './styles.css';
 
-function City({ isActive, cityInfo }) {
+function City({ cityInfo }) {
   return (
-    <a className={isActive}>{cityInfo.city}</a>
+    <div>{cityInfo.city}</div>
   );
 }
 
