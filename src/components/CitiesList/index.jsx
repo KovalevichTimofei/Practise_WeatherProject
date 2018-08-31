@@ -40,7 +40,8 @@ class CitiesList extends Component {
     let index = 0;
 
     const cities = this.list.map((city) => {
-      const path = '/cities/' + city.engCity;
+      let path = '/cities/' + city.engCity;
+      if (city.engCity === 'Brest') path = '/';
       if (`${city.engCity}, ${city.code}` === `${activeCity.engCity}, ${activeCity.code}`) {
         return (
           <li key={index++}>
