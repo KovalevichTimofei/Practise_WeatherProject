@@ -1,6 +1,35 @@
 .active{
     background-color: #d5d5d5;
 }
+.nonactive{
+    background-color: transparent;
+}
 a:hover{
     cursor: pointer;
+    text-decoration: none;
+}
+
+div .active{
+    padding-top: 10px;
+    padding-left: 10px;
+    height: 39px;
+}
+
+div .nonactive{
+    padding-top: 10px;
+    padding-left: 10px;
+    height: 39px;
+}
+
+div .nonactive:hover{
+    cursor: pointer;
+    background-color: #eee;
+}
+
+div .active:hover{
+    cursor: pointer;
+}
+
+.nav > li > a.link {
+    padding: 0;
 }

@@ -1,9 +1,11 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import './styles.css';
 
-function City({ cityInfo }) {
+function City({ isActive, cityInfo }) {
+  const path = '/' + cityInfo.engCity;
   return (
-    <div>{cityInfo.city}</div>
+    <Link to={path} className="link"><div className={isActive}>{cityInfo.city}</div></Link>
   );
 }
 
