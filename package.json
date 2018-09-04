@@ -7,6 +7,8 @@
     "chartist": "^0.11.0",
     "degrees-to-direction": "^1.1.1",
     "eslint-loader": "^2.0.0",
+    "firebase": "^5.4.2",
+    "firebaseui": "^3.4.0",
     "history": "^4.7.2",
     "react": "^16.4.0",
     "react-chartist": "^0.13.1",
