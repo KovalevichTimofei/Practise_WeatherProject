@@ -37,7 +37,7 @@ ReactDOM.render(
   <Provider store={store}>
     <Router history={history}>
       <Fragment>
-        <Route path="/" component={Login} />
+        <Route exact path="/" component={Login} />
         <Route path="/App" component={App} />
       </Fragment>
     </Router>

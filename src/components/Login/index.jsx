@@ -8,14 +8,14 @@ function Login() {
     signInSuccessUrl: '/App',
     signInOptions: [
       auth.EmailAuthProvider.PROVIDER_ID,
-      auth.TwitterAuthProvider.PROVIDER_ID,
+      auth.GithubAuthProvider.PROVIDER_ID,
       auth.GoogleAuthProvider.PROVIDER_ID,
     ],
   });
 
   return (
     <Fragment>
-      <h1>Welcome to My Awesome App</h1>
+      <h1>Погода и прогноз</h1>
       <div id="firebaseui-auth-container" />
     </Fragment>
   );

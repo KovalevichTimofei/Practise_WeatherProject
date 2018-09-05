@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Day from '../Day';
 import changeFiveDaysForecast from '../../actions/newFiveDaysForecast';
+import getWeatherForCity from '../../services/fiveDaysWeatherFetch';
 
 class FiveDaysWeather extends Component {
   constructor() {
@@ -24,7 +25,7 @@ class FiveDaysWeather extends Component {
   getInformation(props) {
     const info = props.activeCity;
 
-    return fetch(`https://api.openweathermap.org/data/2.5/forecast?q=${info.engCity},${info.code}&type=like&APPID=f40fe3edc5d5eccab2a08d022a005dea&lang=ru`)
+    return getWeatherForCity(info.engCity, info.code)
       .then(response => response.json())
       .catch((e) => {
         alert(e);

@@ -4,6 +4,7 @@ import './styles.css';
 import d2d from 'degrees-to-direction';
 import FiveDaysAgo from '../FiveDaysAgo';
 import newCurrentWeather from '../../actions/newCurrentWeather';
+import getWeatherForCity from '../../services/currentWeatherFetch';
 
 class CurrentWeather extends Component {
   constructor() {
@@ -18,7 +19,7 @@ class CurrentWeather extends Component {
 
   componentWillReceiveProps(nextProps) {
     const { currentWeather, activeCity } = this.props;
-    this.cityID = `${activeCity.engCity}, ${activeCity.code}`;
+    this.cityID = `${nextProps.activeCity.engCity}, ${nextProps.activeCity.code}`;
     if (JSON.stringify(currentWeather) !== JSON.stringify(nextProps.currentWeather)
     || JSON.stringify(activeCity) !== JSON.stringify(nextProps.activeCity)) {
       this.prepareData(nextProps);
@@ -27,7 +28,7 @@ class CurrentWeather extends Component {
 
   getInformation(props) {
     const info = props.activeCity;
-    return fetch(`https://api.openweathermap.org/data/2.5/weather?q=${info.engCity},${info.code}&type=like&APPID=f40fe3edc5d5eccab2a08d022a005dea&lang=ru`)
+    return getWeatherForCity(info.engCity, info.code)
       .then(response => response.json())
       .catch((e) => {
         alert(e);
@@ -110,7 +111,6 @@ class CurrentWeather extends Component {
     let currentWeather = JSON.parse(this.myStorage.getItem('currentWeather'));
 
     currentWeather = currentWeather === null ? undefined : currentWeather[this.cityID];
-
     if (this.shouldRequestServer(currentWeather)) {
       const weather = this.getInformation(props);
       weather.then((information) => {
